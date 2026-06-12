@@ -543,6 +543,56 @@ Adminul poate:
 - bloca utilizatori care abuzeaza
 
 ==================================================
+CONT UNIC TURNEUS
+==================================================
+
+Fiecare utilizator are un singur cont Turneus.
+
+Acelasi cont poate participa la:
+
+- Remi
+- Table
+- FIFA
+- Pescuit
+- alte jocuri viitoare
+
+Fiecare joc are:
+
+- clasament propriu
+- statistici proprii
+- puncte proprii
+- campioni proprii
+
+Profilul jucatorului afiseaza:
+
+- clasament general Turneus
+- clasament Remi
+- clasament Table
+- clasament FIFA
+- clasament Pescuit
+
+==================================================
+DATE CONT JUCATOR
+==================================================
+
+Date obligatorii:
+
+- nume si prenume
+- username
+- email
+- telefon
+- oras
+- data nasterii
+
+Date optionale:
+
+- poza profil
+- bio scurt
+- jocuri preferate
+
+Public pe profil se afiseaza doar datele permise de utilizator si informatiile relevante pentru competitie.
+
+==================================================
 APLICATIE MOBILA
 ==================================================
 
