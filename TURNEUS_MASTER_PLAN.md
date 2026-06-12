@@ -621,6 +621,34 @@ Aceasta structura permite adaptarea platformei pentru:
 Fiecare etapa poate avea reguli proprii, participanti proprii si rezultate proprii.
 
 ==================================================
+SEZOANE
+==================================================
+
+Platforma functioneaza pe sezoane.
+
+Exemple:
+
+- Sezon 2025
+- Sezon 2026
+- Sezon 2027
+
+Fiecare sezon are:
+
+- data inceput
+- data sfarsit
+- clasamente proprii
+- campioni proprii
+- statistici proprii
+
+La finalul fiecarui sezon:
+
+- se arhiveaza clasamentele
+- se declara campionii sezonului
+- incepe sezonul nou
+
+Clasamentul All-Time ramane separat si se actualizeaza permanent.
+
+==================================================
 APLICATIE MOBILA
 ==================================================
 
