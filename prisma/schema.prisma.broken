@@ -1,0 +1,269 @@
+  city City @relation(fields: [cityId], references: [id])generator client { provider = "prisma-client" output = 
+  "../src/generated/prisma"
+}
+
+datasource db { provider = "postgresql" @@unique([organizerId, cityId])}
+}
+model User { id String @id @default(cuid()) name String username String @unique email String @unique phone 
+  String? passwordHash String role String @default("PLAYER") status String @default("ACTIVE") createdAt DateTime 
+  @default(now())
+
+  profile Profile? model Venue {} id String @id @default(cuid()) name Stringmodel Profile { id String @id 
+  @default(cuid()) userId String @unique city String? birthDate DateTime? avatarUrl String? bio String? address 
+  String? user User @relation(fields: [userId], references: [id], onDelete: Cascade) cityId String} city City 
+  @relation(fields: [cityId], references: [id]) tournaments Tournament[] createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt
+}
+model Tournament { id String @id @default(cuid()) name String slug String @unique description String? gameId 
+  String game Game @relation(fields: [gameId], references: [id]) seasonId String season Season @relation(fields: 
+  [seasonId], references: [id]) cityId String city City @relation(fields: [cityId], references: [id]) venueId 
+  String? venue Venue? @relation(fields: [venueId], references: [id]) organizerId String organizer 
+  OrganizerProfile @relation(fields: [organizerId], references: [id]) startsAt DateTime entryFee Decimal 
+  @db.Decimal(10, 2) maxPlayers Int status TournamentStatus @default(DRAFT) prizePoolAmount Decimal @default(0) 
+  @db.Decimal(10, 2) organizerCommission Decimal @default(0) @db.Decimal(10, 2) platformCommission Decimal 
+  @default(0) @db.Decimal(10, 2) registrations Registration[] stages TournamentStage[] payments Payment[] 
+  sponsors TournamentSponsor[] comments Comment[] ads Advertisement[] createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt
+}
+model Registration { id String @id @default(cuid()) tournamentId String tournament Tournament @relation(fields: 
+  [tournamentId], references: [id]) userId String user User @relation(fields: [userId], references: [id])
+  status        RegistrationStatus @default(PENDING_PAYMENT)
+  checkedInAt   DateTime?
+
+  payment       Payment?
+
+  finalPosition Int?
+  officialPoints Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tournamentId, userId])
+}
+
+model Payment {
+  id             String @id @default(cuid())
+
+  userId         String
+  user           User @relation(fields: [userId], references: [id])
+
+  tournamentId   String
+  tournament     Tournament @relation(fields: [tournamentId], references: [id])
+
+  registrationId String? @unique
+  registration   Registration? @relation(fields: [registrationId], references: [id])
+
+  amount         Decimal @db.Decimal(10, 2)
+  status         PaymentStatus @default(PENDING)
+
+  provider       String @default("NETOPIA")
+  providerRef    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TournamentStage {
+  id           String @id @default(cuid())
+
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+
+  name         String
+  order        Int
+  status       StageStatus @default(PENDING)
+
+  matches      Match[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Match {
+  id        String @id @default(cuid())
+
+  stageId   String
+  stage     TournamentStage @relation(fields: [stageId], references: [id])
+
+  tableNo   Int?
+  roundNo   Int?
+  status    StageStatus @default(PENDING)
+
+  results   MatchResult[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MatchResult {
+  id        String @id @default(cuid())
+
+  matchId   String
+  match     Match @relation(fields: [matchId], references: [id])
+
+  userId    String
+  score     Int @default(0)
+  position  Int?
+
+  remiClosuresTotal     Int @default(0)
+  remiClosuresWithJoker Int @default(0)
+  remiClosuresNoJoker   Int @default(0)
+  remiClosuresFreeJoker Int @default(0)
+
+  qualified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlayerSeasonStats {
+  id        String @id @default(cuid())
+
+  userId    String
+  user      User @relation(fields: [userId], references: [id])
+
+  seasonId  String
+  season    Season @relation(fields: [seasonId], references: [id])
+
+  gameId    String?
+  game      Game? @relation(fields: [gameId], references: [id])
+
+  cityId    String?
+  city      City? @relation(fields: [cityId], references: [id])
+
+  points    Int @default(0)
+
+  tournamentsPlayed Int @default(0)
+  tournamentsWon    Int @default(0)
+  podiums           Int @default(0)
+  finals            Int @default(0)
+  semifinals        Int @default(0)
+
+  remiTablePoints        Int @default(0)
+  remiClosuresTotal      Int @default(0)
+  remiClosuresWithJoker  Int @default(0)
+  remiClosuresNoJoker    Int @default(0)
+  remiClosuresFreeJoker  Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, seasonId, gameId, cityId])
+}
+
+model Badge {
+  id          String @id @default(cuid())
+  name        String
+  slug        String @unique
+  description String?
+  iconUrl     String?
+
+  players PlayerBadge[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlayerBadge {
+  id      String @id @default(cuid())
+
+  userId  String
+  user    User @relation(fields: [userId], references: [id])
+
+  badgeId String
+  badge   Badge @relation(fields: [badgeId], references: [id])
+
+  awardedAt DateTime @default(now())
+
+  @@unique([userId, badgeId])
+}
+
+model Sponsor {
+  id          String @id @default(cuid())
+  name        String
+  slug        String @unique
+  logoUrl     String?
+  websiteUrl  String?
+  description String?
+
+  organizerId String?
+  organizer   OrganizerProfile? @relation(fields: [organizerId], references: [id])
+
+  tournaments TournamentSponsor[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TournamentSponsor {
+  id String @id @default(cuid())
+
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id])
+
+  sponsorId    String
+  sponsor      Sponsor @relation(fields: [sponsorId], references: [id])
+
+  @@unique([tournamentId, sponsorId])
+}
+
+model Advertisement {
+  id        String @id @default(cuid())
+  title     String
+  imageUrl  String?
+  linkUrl   String?
+  position  AdPosition
+  isActive  Boolean @default(true)
+
+  startsAt  DateTime?
+  endsAt    DateTime?
+
+  cityId       String?
+  city         City? @relation(fields: [cityId], references: [id])
+
+  gameId       String?
+  game         Game? @relation(fields: [gameId], references: [id])
+
+  tournamentId String?
+  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+
+  impressions Int @default(0)
+  clicks      Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String @id @default(cuid())
+
+  userId    String
+  user      User @relation(fields: [userId], references: [id])
+
+  title     String
+  message   String
+  channel   NotificationChannel @default(PLATFORM)
+  status    NotificationStatus @default(UNREAD)
+
+  createdAt DateTime @default(now())
+  readAt     DateTime?
+}
+
+model Comment {
+  id       String @id @default(cuid())
+
+  userId   String
+  user     User @relation(fields: [userId], references: [id])
+
+  body     String
+  status   CommentStatus @default(VISIBLE)
+
+  tournamentId String?
+  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+
+  playerProfileUserId String?
+  organizerProfileId  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
