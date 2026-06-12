@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: turneus_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: turneus
+      POSTGRES_PASSWORD: turneus_dev_password
+      POSTGRES_DB: turneus_pro
+    ports:
+      - "5432:5432"
+    volumes:
+      - turneus_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  turneus_postgres_data:
