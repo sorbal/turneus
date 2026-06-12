@@ -593,6 +593,34 @@ Date optionale:
 Public pe profil se afiseaza doar datele permise de utilizator si informatiile relevante pentru competitie.
 
 ==================================================
+STRUCTURA TURNEELOR
+==================================================
+
+Turneele folosesc etape personalizate.
+
+Fiecare turneu poate avea una sau mai multe etape.
+
+Exemple etape:
+
+- Grupe
+- Mese
+- Optimi
+- Sferturi
+- Semifinale
+- Finala
+- Clasament final
+
+Aceasta structura permite adaptarea platformei pentru:
+
+- Remi
+- Table
+- FIFA
+- Pescuit
+- jocuri viitoare
+
+Fiecare etapa poate avea reguli proprii, participanti proprii si rezultate proprii.
+
+==================================================
 APLICATIE MOBILA
 ==================================================
 
