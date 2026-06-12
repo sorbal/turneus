@@ -499,6 +499,50 @@ Pot avea:
 - pagina dedicata
 
 ==================================================
+NOTIFICARI
+==================================================
+
+Platforma va avea sistem de notificari pentru jucatori, organizatori si admin.
+
+Tipuri notificari:
+
+- inscriere confirmata
+- plata confirmata
+- turneu incepe in 10 zile
+- turneu incepe in 2 zile
+- turneu incepe in 24h
+- turneu incepe in 1h
+- calificare in etapa urmatoare
+- rezultate publicate
+- castig premiu
+
+Notificarile trebuie pregatite pentru:
+
+- notificari in platforma
+- email
+- notificari mobile push in aplicatia viitoare
+
+==================================================
+COMUNITATE
+==================================================
+
+Platforma va avea sistem de comentarii.
+
+Comentarii disponibile la:
+
+- turneu
+- profil jucator
+- profil organizator
+
+Comentariile pot fi moderate de admin.
+
+Adminul poate:
+
+- sterge comentarii
+- ascunde comentarii
+- bloca utilizatori care abuzeaza
+
+==================================================
 APLICATIE MOBILA
 ==================================================
 
