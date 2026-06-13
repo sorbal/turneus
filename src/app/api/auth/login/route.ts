@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword } from "@/lib/auth/password";
+import { createSessionToken } from "@/lib/auth/session";
 
 export async function POST(request: Request) {
   try {
@@ -35,7 +36,13 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({
+    const token = await createSessionToken({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    const response = NextResponse.json({
       message: "Autentificare reusita.",
       user: {
         id: user.id,
@@ -46,6 +53,16 @@ export async function POST(request: Request) {
         role: user.role,
       },
     });
+
+    response.cookies.set("turneus_session", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return response;
   } catch (error) {
     console.error("LOGIN_ERROR", error);
 
