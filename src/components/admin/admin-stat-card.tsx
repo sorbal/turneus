@@ -1,0 +1,49 @@
+import type { LucideIcon } from "lucide-react"
+
+import { Card, CardContent } from "@/components/ui/card"
+import { cn } from "@/lib/utils"
+
+type AdminStatCardProps = {
+  title: string
+  value: string
+  description: string
+  icon: LucideIcon
+  tone?: "default" | "success" | "warning" | "info"
+}
+
+const toneClasses: Record<NonNullable<AdminStatCardProps["tone"]>, string> = {
+  default: "bg-primary/10 text-primary",
+  success: "bg-emerald-500/10 text-emerald-400",
+  warning: "bg-amber-500/10 text-amber-400",
+  info: "bg-sky-500/10 text-sky-400",
+}
+
+export function AdminStatCard({
+  title,
+  value,
+  description,
+  icon: Icon,
+  tone = "default",
+}: AdminStatCardProps) {
+  return (
+    <Card className="overflow-hidden border-white/10 bg-card/80">
+      <CardContent className="flex items-start justify-between gap-4 p-5">
+        <div className="min-w-0 space-y-2">
+          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className="text-2xl font-semibold tracking-normal text-foreground">
+            {value}
+          </p>
+          <p className="text-sm text-muted-foreground">{description}</p>
+        </div>
+        <div
+          className={cn(
+            "flex size-10 shrink-0 items-center justify-center rounded-lg",
+            toneClasses[tone]
+          )}
+        >
+          <Icon className="size-5" aria-hidden="true" />
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
