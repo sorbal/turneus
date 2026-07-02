@@ -10,7 +10,7 @@ type AdminShellProps = {
 export function AdminShell({ children, userName, userEmail }: AdminShellProps) {
   return (
     <div className="dark min-h-screen bg-background text-foreground">
-      <div className="min-h-screen lg:flex">
+      <div className="min-h-screen lg:grid lg:grid-cols-[18rem_minmax(0,1fr)]">
         <AdminSidebar />
         <div className="flex min-w-0 flex-1 flex-col">
           <AdminHeader userName={userName} userEmail={userEmail} />
