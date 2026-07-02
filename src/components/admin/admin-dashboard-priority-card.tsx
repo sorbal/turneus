@@ -23,7 +23,7 @@ export function AdminDashboardPriorityCard({
   modules,
 }: AdminDashboardPriorityCardProps) {
   return (
-    <Card className="border-white/10 bg-card/80">
+    <Card className="h-full border-white/10 bg-card/80">
       <CardHeader>
         <CardTitle>Prioritati v0.3.0</CardTitle>
         <CardDescription>

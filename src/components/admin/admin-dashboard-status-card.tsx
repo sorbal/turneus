@@ -29,7 +29,7 @@ export function AdminDashboardStatusCard({
   items,
 }: AdminDashboardStatusCardProps) {
   return (
-    <Card className="border-white/10 bg-card/80">
+    <Card className="h-full border-white/10 bg-card/80">
       <CardHeader>
         <CardTitle>Status platforma</CardTitle>
         <CardDescription>
@@ -40,7 +40,7 @@ export function AdminDashboardStatusCard({
         {items.map((item) => (
           <div
             key={item.title}
-            className="flex items-center justify-between gap-4 rounded-lg bg-background/60 p-4"
+            className="flex items-center justify-between gap-4 rounded-lg border border-border bg-background/60 p-4"
           >
             <div className="min-w-0">
               <p className="text-sm font-medium text-foreground">

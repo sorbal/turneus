@@ -28,7 +28,7 @@ export function AdminStatCard({
   meta,
 }: AdminStatCardProps) {
   return (
-    <Card className="overflow-hidden border-white/10 bg-card/80 transition-colors hover:bg-card">
+    <Card className="h-full overflow-hidden border-white/10 bg-card/80 transition-colors hover:bg-card">
       <CardContent className="flex min-h-36 flex-col justify-between gap-5 p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0 space-y-2">

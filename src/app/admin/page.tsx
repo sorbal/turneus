@@ -8,7 +8,10 @@ import {
   Users,
 } from "lucide-react";
 
+import { AdminDashboardActivityCard } from "@/components/admin/admin-dashboard-activity-card";
 import { AdminDashboardCardGrid } from "@/components/admin/admin-dashboard-card-grid";
+import { AdminDashboardInsightCard } from "@/components/admin/admin-dashboard-insight-card";
+import { AdminDashboardLayout } from "@/components/admin/admin-dashboard-layout";
 import { AdminDashboardPriorityCard } from "@/components/admin/admin-dashboard-priority-card";
 import { AdminDashboardStatusCard } from "@/components/admin/admin-dashboard-status-card";
 import { AdminSectionHeader } from "@/components/admin/admin-section-header";
@@ -81,21 +84,62 @@ const statusItems = [
   },
 ];
 
+const insightItems = [
+  "Layout-ul admin premium este pregatit pentru module CRUD complete.",
+  "Sidebar, header si cards folosesc componente reutilizabile.",
+  "Urmatorul focus ramane Games CRUD complet, conform roadmap v0.3.0.",
+];
+
+const activityItems = [
+  {
+    title: "Premium sidebar",
+    description: "Navigatie grupata, linkuri active si fundatie extensibila.",
+    status: "done" as const,
+  },
+  {
+    title: "Premium header",
+    description: "Actiuni vizuale, status sprint si zona user rafinata.",
+    status: "done" as const,
+  },
+  {
+    title: "Dashboard cards",
+    description: "Grid statistic si carduri operationale extrase in componente.",
+    status: "done" as const,
+  },
+  {
+    title: "Dashboard final",
+    description: "Finisare UI pentru baza admin din Epic 2.",
+    status: "active" as const,
+  },
+];
+
 export default async function AdminDashboard() {
   return (
-    <div className="space-y-8">
-      <AdminSectionHeader
-        eyebrow="Dashboard"
-        title="Administrare Turneus"
-        description="Fundatia premium pentru operatiunile platformei: module clare, status vizibil si acces rapid catre administrare."
-      />
-
-      <AdminDashboardCardGrid stats={stats} />
-
-      <section className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-        <AdminDashboardPriorityCard modules={nextModules} />
-        <AdminDashboardStatusCard items={statusItems} />
-      </section>
-    </div>
+    <AdminDashboardLayout
+      header={
+        <AdminSectionHeader
+          eyebrow="Dashboard"
+          title="Administrare Turneus"
+          description="Fundatia premium pentru operatiunile platformei: module clare, status vizibil si acces rapid catre administrare."
+        />
+      }
+      stats={<AdminDashboardCardGrid stats={stats} />}
+      main={
+        <>
+          <AdminDashboardPriorityCard modules={nextModules} />
+          <AdminDashboardStatusCard items={statusItems} />
+        </>
+      }
+      secondary={
+        <>
+          <AdminDashboardInsightCard
+            title="Foundation gata pentru productie"
+            description="Dashboard-ul admin este pregatit pentru urmatoarele module fara schimbari de arhitectura."
+            items={insightItems}
+          />
+          <AdminDashboardActivityCard items={activityItems} />
+        </>
+      }
+    />
   );
 }
