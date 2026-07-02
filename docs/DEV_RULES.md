@@ -1,146 +1,214 @@
-# TURNEUS PRO - DEVELOPMENT RULES
+# TURNEUS - DEVELOPMENT RULES
 
-Ultima actualizare: 2026-07-01
+Ultima actualizare: 2026-07-02
 
 ---
 
 # SCOP
 
-Acest document stabilește regulile de dezvoltare ale proiectului Turneus Pro.
+Acest document defineste regulile oficiale de dezvoltare ale proiectului Turneus.
 
-Toate modificările trebuie să respecte aceste reguli.
+Toate modificarile trebuie sa respecte aceste reguli.
 
 ---
 
 # REGULA 1
 
-Nu se sare peste pași.
+Nu se sare peste pasi.
 
-Se dezvoltă incremental.
+Se dezvolta incremental.
+
+Nu se implementeaza mai multe module simultan.
 
 ---
 
 # REGULA 2
 
-După fiecare pas important se execută:
+Dupa fiecare etapa importanta se ruleaza:
 
+```bash
 npm run build
+```
 
-Dacă build-ul nu trece:
+Daca build-ul nu trece:
 
-NU se continuă.
+STOP.
+
+Problema se rezolva inainte de a continua.
 
 ---
 
 # REGULA 3
 
-Nu se face commit dacă există erori.
+Nu se face commit daca exista erori.
 
 Obligatoriu:
 
+```bash
 git status
+```
 
-trebuie să fie curat după commit.
+Repository-ul trebuie sa fie curat dupa fiecare commit.
 
 ---
 
 # REGULA 4
 
-Fiecare funcționalitate trebuie testată.
+Fiecare modul trebuie terminat complet.
 
-Exemple:
+Ordinea obligatorie:
 
-✔ API
+Business Rules
 
-✔ UI
+↓
 
-✔ Database
+Database
 
-✔ Permissions
+↓
+
+Backend
+
+↓
+
+Frontend
+
+↓
+
+Testing
+
+↓
+
+Build
+
+↓
+
+Commit
 
 ---
 
 # REGULA 5
 
-Nu se implementează funcționalități pe jumătate.
+Nu se lasa functionalitati pe jumatate.
 
-Exemplu:
+Exemplu gresit:
 
-Greșit
+- Listare Jocuri
 
-✔ Pagina Jocuri
+Exemplu corect:
 
-✘ Fără editare
-
-✘ Fără ștergere
-
-Corect
-
-✔ Listare
-
-✔ Adăugare
-
-✔ Editare
-
-✔ Ștergere
-
-✔ Validare
-
-✔ Testare
-
-✔ Commit
+- Listare
+- Adaugare
+- Editare
+- Stergere
+- Validari
+- Testare
+- Build
+- Commit
 
 ---
 
 # REGULA 6
 
-Business Logic nu se scrie în pagini.
+Business Logic NU se scrie in pagini.
 
-Business Logic
+Business Logic:
 
-↓
-
+```
 services/
+```
 
-Acces baza de date
+Acces baza de date:
 
-↓
-
+```
 repositories/
+```
 
 ---
 
 # REGULA 7
 
-Nu duplicăm cod.
+Nu duplicam cod.
 
-Dacă aceeași logică apare de două ori:
+Daca acelasi cod apare de doua ori:
 
-Se extrage într-o funcție reutilizabilă.
+Se extrage intr-o functie sau componenta reutilizabila.
 
 ---
 
 # REGULA 8
 
-Orice bibliotecă nouă trebuie justificată.
+Toata interfata foloseste:
 
-Nu instalăm pachete doar pentru că există.
+- Tailwind CSS
+- shadcn/ui
+
+Nu se folosesc:
+
+- Bootstrap
+- Material UI
+- stiluri inline
 
 ---
 
 # REGULA 9
 
-Commits mici și descriptive.
+Preferam:
 
-Exemple:
+Server Components
 
-Added admin dashboard
+Client Components doar cand sunt necesare.
 
-Implemented game CRUD
+---
 
-Added tournament registration
+# REGULA 10
 
-Nu:
+TypeScript strict.
+
+Nu se foloseste:
+
+```
+any
+```
+
+decat daca este absolut necesar.
+
+---
+
+# REGULA 11
+
+Toate componentele trebuie sa fie reutilizabile.
+
+Nu se copiaza componente identice.
+
+---
+
+# REGULA 12
+
+Toate fisierele noi trebuie organizate conform arhitecturii oficiale.
+
+---
+
+# REGULA 13
+
+Nu se instaleaza librarii noi fara motiv.
+
+Mai intai verificam daca exista deja o solutie in proiect.
+
+---
+
+# REGULA 14
+
+Commits mici si descriptive.
+
+Exemple bune:
+
+Added games CRUD
+
+Implemented admin dashboard
+
+Added cities API
+
+Exemple rele:
 
 update
 
@@ -150,110 +218,94 @@ test
 
 ---
 
-# REGULA 10
+# REGULA 15
 
-La finalul fiecărei sesiuni:
+La finalul fiecarei sesiuni:
 
-✔ npm run build
+```bash
+npm run build
+```
 
-✔ git status
+```bash
+git status
+```
 
-✔ commit
+```bash
+git commit
+```
 
-✔ PROJECT_STATUS.md actualizat
-
-✔ ROADMAP.md actualizat (dacă este cazul)
+Repository-ul trebuie sa ramana CLEAN.
 
 ---
 
-# REGULA 11
+# REGULA 16
 
-Codex este folosit pentru accelerarea dezvoltării.
+Documentatia se actualizeaza doar daca este necesar.
 
-Nu pentru proiecte generate integral.
-
-Codex primește întotdeauna context:
-
-MASTER_PLAN.md
+Ordinea:
 
 PROJECT_STATUS.md
 
+CHANGELOG.md
+
 ROADMAP.md
 
-ARCHITECTURE.md
-
-DEV_RULES.md
+Nu se modifica inutil documentatia.
 
 ---
 
-# REGULA 12
+# REGULA 17
 
-Orice modul nou urmează aceeași ordine:
+Codex este folosit pentru accelerarea dezvoltarii.
 
-1.
+Nu decide:
 
-Database
+- arhitectura
+- business rules
+- structura bazei de date
 
-↓
+Inainte de orice task Codex trebuie sa citeasca:
 
-2.
+docs/
 
-Backend API
+si
 
-↓
-
-3.
-
-Frontend
-
-↓
-
-4.
-
-Testare
-
-↓
-
-5.
-
-Build
-
-↓
-
-6.
-
-Commit
+AGENTS.md
 
 ---
 
-# REGULA 13
+# REGULA 18
 
-Nu optimizăm prematur.
+ChatGPT are rolul de Technical Lead.
 
-Mai întâi funcționalitate corectă.
+Responsabilitati:
 
-Apoi optimizare.
-
----
-
-# REGULA 14
-
-Toate deciziile importante se documentează.
-
-Nu trebuie să existe "decizii uitate".
+- arhitectura
+- planificare
+- code review
+- workflow
+- prioritizare
+- integrarea codului generat de AI
 
 ---
 
-# REGULA 15
+# REGULA 19
 
-Obiectivul este calitatea, nu viteza.
+Scopul proiectului este calitatea.
 
-Preferăm:
+Nu viteza.
 
-✔ cod curat
+Preferam:
 
-✔ arhitectură clară
+- cod curat
+- arhitectura clara
+- module complete
+- proiect usor de intretinut
 
-✔ funcționalități complete
+---
 
-în locul unui număr mare de funcționalități incomplete.
+# REGULA 20
+
+Aceste reguli reprezinta standardul oficial de dezvoltare al proiectului Turneus.
+
+Orice dezvoltare noua trebuie sa respecte acest document.

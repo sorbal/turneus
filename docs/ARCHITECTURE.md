@@ -1,24 +1,14 @@
-# TURNEUS PRO - ARCHITECTURE
+# TURNEUS - ARCHITECTURE
 
-Ultima actualizare: 2026-07-01
+Ultima actualizare: 2026-07-02
 
 ---
 
-# FILOZOFIA PROIECTULUI
+# SCOP
 
-Turneus Pro nu este doar un site.
+Acest document descrie arhitectura oficiala a proiectului Turneus.
 
-Este o platformă completă pentru organizarea turneelor recreative și competiționale.
-
-Toate deciziile tehnice trebuie să urmărească:
-
-- scalabilitate
-- claritate
-- mentenanță ușoară
-- reutilizarea codului
-- performanță
-
-Nu se acceptă soluții rapide ("quick fixes") dacă afectează arhitectura pe termen lung.
+Orice dezvoltare noua trebuie sa respecte aceasta arhitectura.
 
 ---
 
@@ -26,7 +16,7 @@ Nu se acceptă soluții rapide ("quick fixes") dacă afectează arhitectura pe t
 
 Frontend
 
-- Next.js 16 (App Router)
+- Next.js 16
 - React 19
 - Tailwind CSS v4
 - shadcn/ui
@@ -37,111 +27,217 @@ Backend
 
 - Next.js Route Handlers
 
-ORM
-
-- Prisma
-
 Database
 
-- PostgreSQL
+- PostgreSQL 16
 
-Autentificare
+ORM
+
+- Prisma 7
+
+Authentication
 
 - JWT
 - HttpOnly Cookies
 
 Hosting
 
-- VPS Ubuntu
+- Ubuntu VPS
 - Docker
 
-Viitor
+Mobile
 
-- React Native (Expo)
+- React Native
+- Expo
 
 ---
 
-# STRUCTURA DIRECTOARELOR
+# STRUCTURA PROIECT
+
+```
+docs/
+
+prisma/
+
+public/
 
 src/
 
+    app/
+
+    components/
+
+        ui/
+
+        admin/
+
+        forms/
+
+        layout/
+
+        shared/
+
+    hooks/
+
+    lib/
+
+        auth/
+
+    repositories/
+
+    services/
+
+    generated/
+
+    types/
+```
+
+---
+
+# RESPONSABILITATI
+
+docs/
+
+Documentatia proiectului.
+
+prisma/
+
+Schema bazei de date.
+
 app/
-→ Pagini și API
+
+Paginile aplicatiei.
 
 components/
-→ Componente reutilizabile
+
+Toate componentele reutilizabile.
 
 lib/
-→ Utilitare
+
+Helpere.
 
 services/
-→ Business Logic
+
+Business Logic.
 
 repositories/
-→ Acces baza de date
 
-generated/
-→ Prisma Client
+Acces la baza de date.
 
----
+hooks/
 
-# REGULI
+Custom React Hooks.
 
-Paginile NU conțin logică de business.
+types/
 
-Business logic → services/
-
-Acces DB → repositories/
-
-Prisma nu trebuie apelat direct din foarte multe locuri.
+Tipuri TypeScript.
 
 ---
 
-# AUTHENTICATION
+# ARHITECTURA
 
-Toate autentificările folosesc:
+Client
+
+↓
+
+Frontend
+
+↓
+
+API
+
+↓
+
+Services
+
+↓
+
+Repositories
+
+↓
+
+Prisma
+
+↓
+
+PostgreSQL
+
+---
+
+# REGULA PRINCIPALA
+
+Business Logic NU se scrie in pagini.
+
+Business Logic merge in:
+
+services/
+
+Accesul la baza de date merge in:
+
+repositories/
+
+---
+
+# UI
+
+Toata interfata foloseste:
+
+Tailwind CSS
+
+shadcn/ui
+
+Nu se folosesc:
+
+- Bootstrap
+- Material UI
+- CSS Framework-uri suplimentare
+
+---
+
+# COMPONENTE
+
+Componente generice
+
+components/ui
+
+Componente Admin
+
+components/admin
+
+Componente formulare
+
+components/forms
+
+Componente comune
+
+components/shared
+
+---
+
+# AUTENTIFICARE
+
+Toata autentificarea foloseste:
 
 JWT
 
 HttpOnly Cookies
 
-Funcții standard:
+Helpere existente:
 
-getCurrentUser()
-
-requireAuth()
-
-requireAdmin()
-
-requireOrganizer()
-
----
-
-# DESIGN
-
-Nu folosim stiluri inline decât temporar.
-
-Componentele trebuie construite folosind:
-
-- Tailwind
-- shadcn/ui
-
-Design minimalist.
-
-Inspirat din:
-
-- Vercel
-- Stripe
-- Linear
-- GitHub
+- getCurrentUser()
+- requireAuth()
+- requireAdmin()
+- requireOrganizer()
 
 ---
 
 # DATABASE
 
-Toate modificările bazei de date trec prin Prisma.
+Toate modificarile bazei de date se fac prin Prisma.
 
-Ordinea este întotdeauna:
+Nu se modifica manual PostgreSQL.
+
+Flux:
 
 schema.prisma
 
@@ -151,120 +247,106 @@ Migration
 
 ↓
 
-Generate
+Prisma Generate
 
 ↓
 
 Build
 
-↓
+---
 
-Commit
+# API
+
+Toate endpointurile sunt in:
+
+src/app/api
+
+Structura:
+
+api/
+
+auth/
+
+games/
+
+cities/
+
+organizers/
+
+tournaments/
+
+players/
+
+payments/
+
+notifications/
 
 ---
 
-# GIT
+# ADMIN PANEL
 
-Commits mici.
+Toata administrarea platformei este in:
 
-Commits descriptive.
+src/app/admin
 
-Niciodată:
+Fiecare modul va avea propriul director.
 
-"fix"
+Exemplu:
 
-"update"
+admin/
 
-"test"
+games/
 
-Preferat:
+cities/
 
-Added tournament registration API
+organizers/
 
-Implemented admin dashboard
+tournaments/
 
-Added player ranking system
+users/
 
----
+ads/
 
-# CODE STYLE
-
-TypeScript strict.
-
-Cod simplu.
-
-Funcții mici.
-
-Fără duplicare.
-
-Comentarii doar unde sunt necesare.
+settings/
 
 ---
 
-# CODEX
+# MOBILE
 
-Codex este folosit pentru accelerarea dezvoltării.
+Aplicatia mobila va folosi exact acelasi API.
 
-Codex NU decide arhitectura.
-
-Codex NU modifică regulile de business.
-
-Codex implementează module respectând:
-
-MASTER_PLAN.md
-
-ROADMAP.md
-
-ARCHITECTURE.md
+Nu se vor crea endpointuri separate.
 
 ---
 
-# ORDINEA DE DEZVOLTARE
+# SCALABILITATE
 
-1.
+Platforma trebuie sa permita:
 
-Business Rules
+- adaugarea de jocuri noi
+- adaugarea de tari noi
+- adaugarea de limbi noi
+- aplicatie mobila
+- extindere internationala
 
-↓
-
-2.
-
-Database
-
-↓
-
-3.
-
-API
-
-↓
-
-4.
-
-Frontend
-
-↓
-
-5.
-
-Testing
-
-↓
-
-6.
-
-Commit
+fara modificari majore ale arhitecturii.
 
 ---
 
-# PRINCIPIU
+# PRINCIPII
 
-Mai bine o funcționalitate completă decât zece funcționalități începute.
-
-Fiecare modul trebuie finalizat înainte de a începe următorul.
+- Cod simplu.
+- Cod reutilizabil.
+- Fara duplicare.
+- Module independente.
+- Componente reutilizabile.
+- Arhitectura scalabila.
+- TypeScript strict.
 
 ---
 
-# OBIECTIV FINAL
+# REGULA FINALA
 
-Construirea celei mai complete platforme pentru organizarea turneelor din România, cu posibilitate de extindere internațională și aplicații mobile dedicate.
+Orice dezvoltare noua trebuie sa respecte aceasta arhitectura.
+
+Nu se modifica arhitectura fara un motiv bine justificat.

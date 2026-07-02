@@ -1,223 +1,127 @@
-# TURNEUS PRO ROADMAP
+# TURNEUS - ROADMAP
 
-Ultima actualizare: 2026-07-01
-
----
-
-# FAZA 0 - INFRASTRUCTURA
-
-## Server
-
-- [x] VPS configurat
-- [x] Ubuntu instalat
-- [x] Docker instalat
-- [x] PostgreSQL instalat
-- [x] Git configurat
-
-## Framework
-
-- [x] Next.js 16
-- [x] Prisma
-- [x] Tailwind CSS v4
-- [x] shadcn/ui
-- [x] Radix UI
-- [x] Lucide Icons
+Ultima actualizare: 2026-07-02
 
 ---
 
-# FAZA 1 - DATABASE
+# v0.3.0
 
-## Baza de date
+Status: IN DEZVOLTARE
 
-- [x] Schema Prisma
-- [x] Migrări
-- [x] Seed
-- [x] Jocuri
-- [x] Orașe
-- [x] Sezoane
-- [x] Badge-uri
+Obiective:
 
----
-
-# FAZA 2 - AUTHENTICATION
-
-- [x] Register
-- [x] Login
-- [x] Logout
-- [x] JWT Sessions
-- [x] HttpOnly Cookies
-- [x] Password Hashing
-- [x] Current User API
+- Dashboard modern
+- Sidebar nou
+- Header nou
+- Cards statistici
+- Responsive Layout
+- Games CRUD complet
 
 ---
 
-# FAZA 3 - AUTHORIZATION
+# v0.4.0
 
-- [x] getCurrentUser()
-- [x] requireAuth()
-- [x] requireAdmin()
-- [x] requireOrganizer()
+Status: PLANIFICAT
 
-- [ ] middleware.ts
-- [ ] Protected Routes
-- [ ] Route Guards
+Obiective:
 
----
-
-# FAZA 4 - ADMIN PANEL
-
-## Dashboard
-
-- [x] Layout
-- [x] Sidebar
-- [x] Dashboard
-- [ ] Dashboard modern
-- [ ] Dark Mode
-- [ ] Responsive
+- Cities CRUD
+- Organizers CRUD
+- User Management
+- Venues CRUD
 
 ---
 
-# MODUL JOCURI
+# v0.5.0
 
-- [x] Pagină
-- [x] Listare jocuri
+Status: PLANIFICAT
 
-- [ ] Adaugă joc
-- [ ] Editare joc
-- [ ] Ștergere joc
-- [ ] Activ/Inactiv
-- [ ] Căutare
-- [ ] Sortare
-- [ ] Paginare
+Obiective:
+
+- Tournament CRUD
+- Tournament Registration
+- Tournament Settings
+- Tournament Stages
 
 ---
 
-# MODUL ORAȘE
+# v0.6.0
 
-- [ ] Listare
-- [ ] Adăugare
-- [ ] Editare
-- [ ] Ștergere
+Status: PLANIFICAT
 
----
+Obiective:
 
-# MODUL ORGANIZATORI
-
-- [ ] CRUD
-- [ ] Profil
-- [ ] Orașe administrate
-- [ ] Statistici
+- Matches
+- Brackets
+- Results
+- Standings
+- Automatic Progression
 
 ---
 
-# MODUL UTILIZATORI
+# v0.7.0
 
-- [ ] CRUD
-- [ ] Roluri
-- [ ] Blocare cont
-- [ ] Reset parolă
+Status: PLANIFICAT
 
----
+Obiective:
 
-# MODUL TURNEE
-
-- [ ] CRUD
-- [ ] Calendar
-- [ ] Înscrieri
-- [ ] Confirmări
-- [ ] Grupe
-- [ ] Bracket
-- [ ] Clasamente
-- [ ] Rezultate
+- Rankings
+- Statistics
+- Badges
+- Seasons
+- Player Profiles
 
 ---
 
-# MODUL MECIURI
+# v0.8.0
 
-- [ ] Program
-- [ ] Scoruri
-- [ ] Confirmare rezultate
+Status: PLANIFICAT
 
----
+Obiective:
 
-# MODUL CLASAMENTE
-
-- [ ] Local
-- [ ] Național
-- [ ] All-Time
-- [ ] Sezon
+- Payments
+- Financial Reports
+- Organizer Earnings
+- Platform Earnings
 
 ---
 
-# MODUL BADGE-URI
+# v0.9.0
 
-- [ ] Acordare automată
-- [ ] Pagină badge-uri
+Status: PLANIFICAT
 
----
+Obiective:
 
-# MODUL PLĂȚI
-
-- [ ] Netopia
-- [ ] Stripe
-- [ ] Confirmări
-- [ ] Facturi
+- Notifications
+- Sponsors
+- Advertisements
+- Comments
+- Public Pages
 
 ---
 
-# MODUL RECLAME
+# v1.0.0
 
-- [ ] CRUD
-- [ ] Banner Homepage
-- [ ] Banner Dashboard
+Status: PUBLIC RELEASE
 
----
+Obiective:
 
-# MODUL NOTIFICĂRI
-
-- [ ] Sistem notificări
-- [ ] Email
-- [ ] Push
+- Android App
+- iPhone App
+- Performance Optimization
+- Security Audit
+- Production Launch
 
 ---
 
-# MODUL COMUNITATE
+# REGULI
 
-- [ ] Comentarii
-- [ ] Profiluri publice
-- [ ] Activitate
+Nu se incepe urmatoarea versiune pana cand versiunea curenta nu este finalizata.
 
----
+Fiecare versiune trebuie sa se termine cu:
 
-# MODUL STATISTICI
-
-- [ ] Dashboard
-- [ ] Grafice
-- [ ] Venituri
-- [ ] Participări
-
----
-
-# MOBILE APP
-
-- [ ] React Native
-- [ ] Login
-- [ ] Turnee
-- [ ] Clasamente
-- [ ] Profil
-
----
-
-# LANSARE
-
-## Beta
-
-- [ ] Test intern
-
-## Release Candidate
-
-- [ ] Test organizatori
-
-## v1.0
-
-- [ ] Lansare oficială
+- Testing
+- npm run build
+- Git Commit
+- CHANGELOG actualizat
+- PROJECT_STATUS actualizat

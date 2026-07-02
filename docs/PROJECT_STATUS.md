@@ -1,140 +1,255 @@
-TURNEUS - PROJECT STATUS
+# TURNEUS - PROJECT STATUS
 
-DATA:
-2026-07-02
+Ultima actualizare: 2026-07-02
 
-STATUS:
+---
+
+# STATUS GENERAL
+
+Proiect:
 ACTIV
 
-SPRINT CURENT:
-Sprint 2 - Dashboard modern
+Versiune:
+v0.2.0
 
-BRAND:
+Sprint curent:
+Sprint 2
+
+Status Sprint:
+IN DEZVOLTARE
+
+Brand:
 Turneus
 
-NU SE MAI FOLOSESTE:
-Turneus Pro, exceptand commit-uri istorice.
+Repository:
+CLEAN
 
-IMPLEMENTAT:
+Branch:
+main
 
-- VPS Ubuntu
-- Docker
-- PostgreSQL 16
+---
+
+# STACK
+
+Frontend
+
 - Next.js 16
-- Prisma 7
+- React 19
 - Tailwind CSS v4
 - shadcn/ui
 - Radix UI
 - Lucide Icons
-- Geist Font
 
-DATABASE:
-FINALIZATA
+Backend
 
-- Schema Prisma v1
-- 22 tabele create
-- Migrare executata
-- Seed initial functional
-- Jocuri: Remi, Table, FIFA, Pescuit
-- Orase: Braila, Galati
-- Sezon: 2026
-- Badge-uri initiale
+- Next.js Route Handlers
 
-AUTHENTICATION:
-FINALIZATA
+Database
 
-- Register API
-- Login API
-- Logout API
-- JWT Sessions
+- PostgreSQL 16
+
+ORM
+
+- Prisma 7
+
+Authentication
+
+- JWT
 - HttpOnly Cookies
-- Current User API
+
+Hosting
+
+- Ubuntu VPS
+- Docker
+
+---
+
+# MODULE STATUS
+
+Infrastructure
+
+STATUS
+
+FINALIZATA
+
+Implementat
+
+- VPS
+- Ubuntu
+- Docker
+- PostgreSQL
+- Prisma
+- Git
+
+---
+
+Database
+
+STATUS
+
+FINALIZATA
+
+Implementat
+
+- Schema Prisma
+- 22 modele
+- Migration
+- Seed
+- Jocuri
+- Orase
+- Badge-uri
+- Sezon 2026
+
+---
+
+Authentication
+
+STATUS
+
+FINALIZATA
+
+Implementat
+
+- Register
+- Login
+- Logout
+- Current User
+- JWT
+- HttpOnly Cookies
 - Password Hashing
 
-AUTHORIZATION:
+---
+
+Authorization
+
+STATUS
+
 IN DEZVOLTARE
 
-Implementat:
+Implementat
+
 - getCurrentUser()
 - requireAuth()
 - requireAdmin()
 - requireOrganizer()
 
-Urmeaza:
-- middleware.ts
+Urmeaza
+
+- middleware
 - Protected Routes
-- Role Middleware
 
-ADMIN PANEL:
+---
+
+Admin Panel
+
+STATUS
+
 IN DEZVOLTARE
 
-Implementat:
+Implementat
+
 - Admin Layout
-- Sidebar simplu
-- Dashboard initial
-- Pagina /admin/jocuri
-- Prima listare jocuri din PostgreSQL
+- Dashboard Foundation
+- Games Page
+- Prima listare PostgreSQL
 
-UI:
+Urmeaza
+
+- Dashboard Modern
+- Games CRUD
+
+---
+
+UI
+
+STATUS
+
 IN DEZVOLTARE
 
-Implementat:
-- Tailwind CSS v4
-- shadcn/ui initializat
-- Button component
+Implementat
+
+- Tailwind CSS
+- shadcn/ui
+- Radix UI
 - Lucide Icons
 - Geist Font
 
-STIL ALES:
-Linear style
+Design ales
 
-TEMA:
-Dark, minimalist, premium
+- Linear
+- Dark Theme
 
-DOCUMENTATIE:
+---
+
+# STRUCTURA DOCUMENTATIE
+
 docs/
 
-Fisiere:
 - TURNEUS_MASTER_PLAN.md
-- PROJECT_STATUS.md
-- ROADMAP.md
 - ARCHITECTURE.md
 - DEV_RULES.md
+- ROADMAP.md
 - CHANGELOG.md
+- PROJECT_STATUS.md
 
-AGENTS.md ramane in radacina proiectului.
+AGENTS.md
 
-GIT:
-Branch main
+---
 
-Ultimul status cunoscut:
-working tree clean
+# ULTIMA SESIUNE
 
-URMATORUL PAS:
-Reconstruirea Admin Dashboard folosind Tailwind CSS + shadcn/ui.
+Finalizat
 
-SPRINT 2 TASKS:
+- shadcn/ui instalat
+- Admin Layout
+- Dashboard Foundation
+- Games Page
+- Documentatie reorganizata
+- Folder docs/
+- AGENTS.md actualizat
+
+---
+
+# NEXT STEP
+
+Sprint 2
+
+Obiective
 
 - Dashboard modern
 - Sidebar nou
 - Header nou
 - Cards statistici
-- Responsive layout
-- Dark theme
-- Commit
+- Responsive Layout
+- Games CRUD
 
-DUPA SPRINT 2:
-CRUD complet pentru Jocuri.
+---
 
-COMENZI RELUARE:
+# GIT
 
-ssh root@188.213.20.149
-cd /opt/turneus/app
-git status
-git log --oneline -10
-npm run dev
+Ultimul status
 
-REGULA:
-Lucram pas cu pas.
-Dupa fiecare etapa importanta rulam npm run build.
-Nu facem commit daca build-ul nu trece.
+working tree clean
+
+Ultima verificare
+
+2026-07-02
+
+---
+
+# REFERINTE
+
+Arhitectura:
+ARCHITECTURE.md
+
+Reguli dezvoltare:
+DEV_RULES.md
+
+Plan dezvoltare:
+ROADMAP.md
+
+Scop proiect:
+TURNEUS_MASTER_PLAN.md
+
+Istoric:
+CHANGELOG.md

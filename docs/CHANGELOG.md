@@ -1,86 +1,105 @@
-# TURNEUS PRO CHANGELOG
+# TURNEUS - CHANGELOG
+
+Ultima actualizare: 2026-07-02
 
 ---
 
 # v0.1.0
 
-Data: 2026-06-13
+Data:
+2026-06-13
 
-## Infrastructure
+Infrastructure
 
-- Initializat proiectul Next.js 16
-- Configurat VPS Ubuntu
-- Configurat Docker
-- Configurat PostgreSQL
-- Configurat Prisma
+- Initializare proiect Next.js
+- Configurare VPS Ubuntu
+- Configurare Docker
+- Configurare PostgreSQL
+- Configurare Prisma
 
-## Database
+Database
 
-- Creat schema completă Prisma
-- Create toate cele 22 de tabele
-- Implementat Seed
-- Adăugate jocurile inițiale
-- Adăugate orașele inițiale
-- Adăugat sezonul 2026
-- Adăugate badge-urile inițiale
+- Schema Prisma initiala
+- 22 modele create
+- Seed initial
+- Jocuri initiale
+- Orase initiale
+- Sezon 2026
+- Badge-uri initiale
 
-## Authentication
+Authentication
 
 - Register API
 - Login API
-- Password Hashing
+- Logout API
+- Current User API
 - JWT Sessions
 - HttpOnly Cookies
-- Current User API
-- Logout API
+- Password Hashing
 
 ---
 
 # v0.2.0
 
-Data: 2026-07-01
+Data:
+2026-07-02
 
-## Authorization
+Authorization
 
 - getCurrentUser()
 - requireAuth()
 - requireAdmin()
 - requireOrganizer()
 
-## Admin
+Admin
 
-- Primul Admin Dashboard
 - Admin Layout
-- Sidebar
-- Pagina Jocuri
-- Prima listare din PostgreSQL
+- Dashboard Foundation
+- Games Page
+- Prima conexiune PostgreSQL -> UI
 
-## UI
+UI
 
-- Instalare Tailwind CSS v4
-- Instalare shadcn/ui
-- Instalare Radix UI
-- Instalare Lucide Icons
-- Configurare Geist Font
+- Tailwind CSS v4
+- shadcn/ui
+- Radix UI
+- Lucide Icons
+- Geist Font
 
-## Documentation
+Project
 
-- PROJECT_STATUS.md actualizat
-- ROADMAP.md creat
-- ARCHITECTURE.md creat
-- DEV_RULES.md creat
+- Folder docs/
+- AGENTS.md actualizat
+- MASTER_PLAN rescris
+- ARCHITECTURE rescris
+- DEV_RULES rescris
+- ROADMAP reorganizat
+- PROJECT_STATUS simplificat
 
 ---
 
-# Următoarea versiune
+# v0.3.0
 
-v0.3.0
+Status:
+IN DEZVOLTARE
 
-Planificat:
+Planificat
 
-- Dashboard profesional
-- CRUD Jocuri
-- CRUD Orașe
-- Middleware
-- Protected Routes
+- Dashboard modern
+- Sidebar nou
+- Header nou
+- Cards statistici
+- Responsive Layout
+- Games CRUD complet
 
+---
+
+# FORMAT
+
+Fiecare versiune trebuie sa contina:
+
+- Data
+- Functionalitati noi
+- Modificari
+- Refactorizari importante
+- Schimbari de arhitectura
