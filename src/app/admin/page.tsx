@@ -8,15 +8,10 @@ import {
   Users,
 } from "lucide-react";
 
+import { AdminDashboardCardGrid } from "@/components/admin/admin-dashboard-card-grid";
+import { AdminDashboardPriorityCard } from "@/components/admin/admin-dashboard-priority-card";
+import { AdminDashboardStatusCard } from "@/components/admin/admin-dashboard-status-card";
 import { AdminSectionHeader } from "@/components/admin/admin-section-header";
-import { AdminStatCard } from "@/components/admin/admin-stat-card";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 const stats = [
   {
@@ -25,6 +20,7 @@ const stats = [
     description: "Auth, admin layout si jocuri.",
     icon: Activity,
     tone: "success" as const,
+    meta: "Foundation",
   },
   {
     title: "Sprint curent",
@@ -32,6 +28,7 @@ const stats = [
     description: "Dashboard si Games CRUD.",
     icon: Trophy,
     tone: "info" as const,
+    meta: "In dezvoltare",
   },
   {
     title: "Jocuri initiale",
@@ -39,6 +36,7 @@ const stats = [
     description: "Remi, Table, FIFA si Pescuit.",
     icon: Gamepad2,
     tone: "default" as const,
+    meta: "Extensibil",
   },
   {
     title: "Sezon activ",
@@ -46,6 +44,7 @@ const stats = [
     description: "Fundatie pentru clasamente.",
     icon: CalendarDays,
     tone: "warning" as const,
+    meta: "2026",
   },
 ];
 
@@ -67,6 +66,21 @@ const nextModules = [
   },
 ];
 
+const statusItems = [
+  {
+    title: "Repository",
+    description: "Ultimul status documentat: clean",
+    icon: BadgeCheck,
+    tone: "success" as const,
+  },
+  {
+    title: "Arhitectura",
+    description: "Services si repositories raman separate de pagini.",
+    icon: ShieldCheck,
+    tone: "info" as const,
+  },
+];
+
 export default async function AdminDashboard() {
   return (
     <div className="space-y-8">
@@ -76,86 +90,11 @@ export default async function AdminDashboard() {
         description="Fundatia premium pentru operatiunile platformei: module clare, status vizibil si acces rapid catre administrare."
       />
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((stat) => (
-          <AdminStatCard
-            key={stat.title}
-            title={stat.title}
-            value={stat.value}
-            description={stat.description}
-            icon={stat.icon}
-            tone={stat.tone}
-          />
-        ))}
-      </section>
+      <AdminDashboardCardGrid stats={stats} />
 
       <section className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-        <Card className="border-white/10 bg-card/80">
-          <CardHeader>
-            <CardTitle>Prioritati v0.3.0</CardTitle>
-            <CardDescription>
-              Ordinea de lucru ramane incrementala, cu fiecare modul dus pana la
-              build.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            {nextModules.map((module) => (
-              <div
-                key={module.title}
-                className="flex gap-3 rounded-lg border border-border bg-background/60 p-4"
-              >
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-secondary-foreground">
-                  <module.icon className="size-4" aria-hidden="true" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-medium text-foreground">{module.title}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {module.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border-white/10 bg-card/80">
-          <CardHeader>
-            <CardTitle>Status platforma</CardTitle>
-            <CardDescription>
-              Snapshot operational pentru sprintul curent.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between gap-4 rounded-lg bg-background/60 p-4">
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  Repository
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Ultimul status documentat: clean
-                </p>
-              </div>
-              <BadgeCheck
-                className="size-5 text-emerald-400"
-                aria-hidden="true"
-              />
-            </div>
-            <div className="flex items-center justify-between gap-4 rounded-lg bg-background/60 p-4">
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  Arhitectura
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Services si repositories raman separate de pagini.
-                </p>
-              </div>
-              <ShieldCheck
-                className="size-5 text-sky-400"
-                aria-hidden="true"
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <AdminDashboardPriorityCard modules={nextModules} />
+        <AdminDashboardStatusCard items={statusItems} />
       </section>
     </div>
   );
