@@ -1,6 +1,6 @@
 # TURNEUS - CHANGELOG
 
-Ultima actualizare: 2026-07-02
+Ultima actualizare: 2026-07-13
 
 ---
 
@@ -83,14 +83,28 @@ Project
 Status:
 IN DEZVOLTARE
 
-Planificat
+Implementat
 
 - Dashboard modern
 - Sidebar nou
 - Header nou
 - Cards statistici
 - Responsive Layout
+- Premium Admin Dashboard UI
+- Games Repository
+- Games Service
+- Games API
+- Games CRUD Task 6A
+- Games CRUD Task 6B
+
+In dezvoltare
+
 - Games CRUD complet
+
+Urmeaza
+
+- Games CRUD Task 6C
+- Admin Games UI
 
 ---
 

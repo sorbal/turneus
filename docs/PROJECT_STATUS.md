@@ -1,6 +1,6 @@
 # TURNEUS - PROJECT STATUS
 
-Ultima actualizare: 2026-07-02
+Ultima actualizare: 2026-07-13
 
 ---
 
@@ -10,10 +10,10 @@ Proiect:
 ACTIV
 
 Versiune:
-v0.2.0
+v0.3.0
 
 Sprint curent:
-Sprint 2
+Sprint 3
 
 Status Sprint:
 IN DEZVOLTARE
@@ -152,11 +152,17 @@ Implementat
 - Dashboard Foundation
 - Games Page
 - Prima listare PostgreSQL
+- Premium Admin Dashboard
+- Premium Admin Sidebar
+- Premium Admin Header
+- Premium Dashboard Cards
+- Games Repository
+- Games Service
+- Games API
 
 Urmeaza
 
-- Dashboard Modern
-- Games CRUD
+- Games CRUD Task 6C
 
 ---
 
@@ -200,28 +206,28 @@ AGENTS.md
 
 Finalizat
 
-- shadcn/ui instalat
-- Admin Layout
-- Dashboard Foundation
-- Games Page
-- Documentatie reorganizata
-- Folder docs/
-- AGENTS.md actualizat
+- Epic 2 finalizat
+- Premium Admin Dashboard UI
+- Epic 3 inceput
+- Games Repository
+- Games Service
+- Games API
+- Games CRUD Task 6A finalizat
+- Games CRUD Task 6B finalizat
 
 ---
 
 # NEXT STEP
 
-Sprint 2
+Sprint 3
 
 Obiective
 
-- Dashboard modern
-- Sidebar nou
-- Header nou
-- Cards statistici
-- Responsive Layout
-- Games CRUD
+- Games CRUD Task 6C
+- Admin Games UI
+- Formular adaugare joc
+- Formular editare joc
+- Actiuni activare / dezactivare / stergere
 
 ---
 
@@ -233,7 +239,7 @@ working tree clean
 
 Ultima verificare
 
-2026-07-02
+2026-07-13
 
 ---
 
