@@ -1,6 +1,6 @@
 # TURNEUS - PROJECT STATUS
 
-Ultima actualizare: 2026-07-13
+Ultima actualizare: 2026-07-14
 
 ---
 
@@ -159,10 +159,16 @@ Implementat
 - Games Repository
 - Games Service
 - Games API
+- Games CRUD Task 6C
+- Admin Games Table
+- Formular adaugare joc
+- Formular editare joc
+- Actiuni activare / dezactivare / stergere
 
 Urmeaza
 
-- Games CRUD Task 6C
+- Cities CRUD
+- Organizers CRUD
 
 ---
 
@@ -214,6 +220,8 @@ Finalizat
 - Games API
 - Games CRUD Task 6A finalizat
 - Games CRUD Task 6B finalizat
+- Games CRUD Task 6C finalizat
+- Games CRUD complet finalizat
 
 ---
 
@@ -223,11 +231,10 @@ Sprint 3
 
 Obiective
 
-- Games CRUD Task 6C
-- Admin Games UI
-- Formular adaugare joc
-- Formular editare joc
-- Actiuni activare / dezactivare / stergere
+- Cities CRUD
+- Organizers CRUD
+- User Management
+- Venues CRUD
 
 ---
 
@@ -235,11 +242,11 @@ Obiective
 
 Ultimul status
 
-working tree clean
+working tree cu modificari necomise
 
 Ultima verificare
 
-2026-07-13
+2026-07-14
 
 ---
 

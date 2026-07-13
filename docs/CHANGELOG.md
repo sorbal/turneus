@@ -1,6 +1,6 @@
 # TURNEUS - CHANGELOG
 
-Ultima actualizare: 2026-07-13
+Ultima actualizare: 2026-07-14
 
 ---
 
@@ -96,15 +96,20 @@ Implementat
 - Games API
 - Games CRUD Task 6A
 - Games CRUD Task 6B
-
-In dezvoltare
-
+- Games CRUD Task 6C
 - Games CRUD complet
+- Admin Games Table
+- Add Game
+- Edit Game
+- Activate / Deactivate
+- Delete
+- Reusable Game Form
+- Reusable Game Actions
 
 Urmeaza
 
-- Games CRUD Task 6C
-- Admin Games UI
+- Cities CRUD
+- Organizers CRUD
 
 ---
 

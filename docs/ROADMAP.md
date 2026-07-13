@@ -1,6 +1,6 @@
 # TURNEUS - ROADMAP
 
-Ultima actualizare: 2026-07-13
+Ultima actualizare: 2026-07-14
 
 ---
 
@@ -15,7 +15,7 @@ Obiective:
 - Header nou - FINALIZAT
 - Cards statistici - FINALIZAT
 - Responsive Layout - FINALIZAT
-- Games CRUD complet - IN DEZVOLTARE
+- Games CRUD complet - FINALIZAT
 
 Epic 2:
 
@@ -23,13 +23,17 @@ Epic 2:
 
 Epic 3:
 
-- Games CRUD - IN DEZVOLTARE
+- Games CRUD - FINALIZAT
 
 Games CRUD:
 
 - Task 6A: Repository + Service foundation - FINALIZAT
 - Task 6B: Games API - FINALIZAT
-- Task 6C: Admin Games UI - URMEAZA
+- Task 6C: Admin Games UI - DONE
+
+Urmatorul task:
+
+- Cities CRUD - URMEAZA
 
 ---
 

@@ -1,44 +1,28 @@
-import { prisma } from "@/lib/prisma";
+import Link from "next/link"
+
+import { AdminGamesTable } from "@/components/admin/admin-games-table"
+import { AdminSectionHeader } from "@/components/admin/admin-section-header"
+import { Button } from "@/components/ui/button"
+import { getGames } from "@/services/game.service"
 
 export default async function AdminGamesPage() {
-  const games = await prisma.game.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
+  const games = await getGames()
 
   return (
-    <div>
-      <h1>Jocuri</h1>
-      <p>Administrare jocuri disponibile pe platforma Turneus.</p>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <AdminSectionHeader
+          eyebrow="Games CRUD"
+          title="Jocuri"
+          description="Administreaza jocurile disponibile pe platforma Turneus."
+        />
 
-      <table style={{ width: "100%", marginTop: 30, borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 10 }}>
-              Nume
-            </th>
-            <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 10 }}>
-              Slug
-            </th>
-            <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 10 }}>
-              Status
-            </th>
-          </tr>
-        </thead>
+        <Button asChild>
+          <Link href="/admin/jocuri/adauga">Adauga joc</Link>
+        </Button>
+      </div>
 
-        <tbody>
-          {games.map((game) => (
-            <tr key={game.id}>
-              <td style={{ padding: 10, borderBottom: "1px solid #eee" }}>{game.name}</td>
-              <td style={{ padding: 10, borderBottom: "1px solid #eee" }}>{game.slug}</td>
-              <td style={{ padding: 10, borderBottom: "1px solid #eee" }}>
-                {game.isActive ? "Activ" : "Inactiv"}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <AdminGamesTable games={games} />
     </div>
-  );
+  )
 }
