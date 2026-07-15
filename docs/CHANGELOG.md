@@ -1,6 +1,6 @@
 # TURNEUS - CHANGELOG
 
-Ultima actualizare: 2026-07-14
+Ultima actualizare: 2026-07-15
 
 ---
 
@@ -110,6 +110,32 @@ Urmeaza
 
 - Cities CRUD
 - Organizers CRUD
+
+---
+
+# v0.4.0
+
+Status:
+IN DEZVOLTARE
+
+Implementat
+
+- Cities Repository
+- Cities Service
+- Cities API
+- Admin Cities List
+- Add City
+- Edit City
+- Delete City
+- Reusable City Form
+- Reusable City Actions
+- Cities CRUD complet
+
+Urmeaza
+
+- Organizers CRUD
+- User Management
+- Venues CRUD
 
 ---
 

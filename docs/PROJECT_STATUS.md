@@ -1,6 +1,6 @@
 # TURNEUS - PROJECT STATUS
 
-Ultima actualizare: 2026-07-14
+Ultima actualizare: 2026-07-15
 
 ---
 
@@ -10,10 +10,10 @@ Proiect:
 ACTIV
 
 Versiune:
-v0.3.0
+v0.4.0
 
 Sprint curent:
-Sprint 3
+Sprint 4
 
 Status Sprint:
 IN DEZVOLTARE
@@ -164,11 +164,20 @@ Implementat
 - Formular adaugare joc
 - Formular editare joc
 - Actiuni activare / dezactivare / stergere
+- Cities Repository
+- Cities Service
+- Cities API
+- Admin Cities List
+- Formular adaugare oras
+- Formular editare oras
+- Actiuni stergere oras
+- Cities CRUD complet
 
 Urmeaza
 
-- Cities CRUD
 - Organizers CRUD
+- User Management
+- Venues CRUD
 
 ---
 
@@ -222,16 +231,17 @@ Finalizat
 - Games CRUD Task 6B finalizat
 - Games CRUD Task 6C finalizat
 - Games CRUD complet finalizat
+- v0.4.0 inceput
+- Cities CRUD finalizat
 
 ---
 
 # NEXT STEP
 
-Sprint 3
+Sprint 4
 
 Obiective
 
-- Cities CRUD
 - Organizers CRUD
 - User Management
 - Venues CRUD
@@ -246,7 +256,7 @@ working tree cu modificari necomise
 
 Ultima verificare
 
-2026-07-14
+2026-07-15
 
 ---
 

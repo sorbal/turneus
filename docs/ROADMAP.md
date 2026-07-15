@@ -1,6 +1,6 @@
 # TURNEUS - ROADMAP
 
-Ultima actualizare: 2026-07-14
+Ultima actualizare: 2026-07-15
 
 ---
 
@@ -33,18 +33,18 @@ Games CRUD:
 
 Urmatorul task:
 
-- Cities CRUD - URMEAZA
+- Organizers CRUD - URMEAZA
 
 ---
 
 # v0.4.0
 
-Status: PLANIFICAT
+Status: IN DEZVOLTARE
 
 Obiective:
 
-- Cities CRUD
-- Organizers CRUD
+- Cities CRUD - FINALIZAT
+- Organizers CRUD - URMEAZA
 - User Management
 - Venues CRUD
 
