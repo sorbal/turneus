@@ -130,10 +130,20 @@ Implementat
 - Reusable City Form
 - Reusable City Actions
 - Cities CRUD complet
+- Organizer Repository
+- Organizer Service
+- Organizer API
+- Admin Organizers List
+- Add Organizer
+- Edit Organizer
+- Approve / Unapprove
+- Delete Organizer
+- Eligible PLAYER users only
+- Role update PLAYER <-> ORGANIZER
+- Organizers CRUD complet
 
 Urmeaza
 
-- Organizers CRUD
 - User Management
 - Venues CRUD
 

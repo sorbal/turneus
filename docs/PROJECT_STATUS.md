@@ -172,10 +172,19 @@ Implementat
 - Formular editare oras
 - Actiuni stergere oras
 - Cities CRUD complet
+- Organizer Repository
+- Organizer Service
+- Organizer API
+- Admin Organizers List
+- Formular adaugare organizator
+- Formular editare organizator
+- Actiuni aprobare / retragere aprobare / stergere organizator
+- Useri eligibili doar cu rol PLAYER
+- Role update PLAYER <-> ORGANIZER
+- Organizers CRUD complet
 
 Urmeaza
 
-- Organizers CRUD
 - User Management
 - Venues CRUD
 
@@ -233,6 +242,7 @@ Finalizat
 - Games CRUD complet finalizat
 - v0.4.0 inceput
 - Cities CRUD finalizat
+- Organizers CRUD finalizat
 
 ---
 
@@ -242,7 +252,6 @@ Sprint 4
 
 Obiective
 
-- Organizers CRUD
 - User Management
 - Venues CRUD
 

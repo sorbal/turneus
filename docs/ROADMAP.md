@@ -33,7 +33,7 @@ Games CRUD:
 
 Urmatorul task:
 
-- Organizers CRUD - URMEAZA
+- User Management - URMEAZA
 
 ---
 
@@ -44,8 +44,8 @@ Status: IN DEZVOLTARE
 Obiective:
 
 - Cities CRUD - FINALIZAT
-- Organizers CRUD - URMEAZA
-- User Management
+- Organizers CRUD - FINALIZAT
+- User Management - URMEAZA
 - Venues CRUD
 
 ---
