@@ -5,7 +5,9 @@ import {
   deleteTournamentRecord,
   getTournamentById,
   TournamentServiceError,
+  updateTournamentLifecycleStatus,
   updateTournamentRecord,
+  type TournamentLifecycleAction,
   type UpdateTournamentInput,
 } from "@/services/tournament.service"
 
@@ -53,6 +55,16 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     const { id } = await context.params
     const body = await readJsonBody(request)
+
+    if (isLifecycleActionInput(body)) {
+      const tournament = await updateTournamentLifecycleStatus(id, body.action)
+
+      return NextResponse.json({
+        message: getLifecycleSuccessMessage(body.action),
+        tournament,
+      })
+    }
+
     const input = parseUpdateTournamentInput(body)
     const tournament = await updateTournamentRecord(id, input)
 
@@ -79,6 +91,45 @@ export async function DELETE(_request: Request, context: RouteContext) {
   } catch (error) {
     return handleTournamentApiError(error, "TOURNAMENT_DELETE_ERROR")
   }
+}
+
+function isLifecycleActionInput(
+  body: unknown
+): body is { action: TournamentLifecycleAction } {
+  if (!isRecord(body) || !("action" in body)) {
+    return false
+  }
+
+  const keys = Object.keys(body)
+
+  if (keys.length !== 1) {
+    throw new TournamentApiError(
+      "Actiunea de status nu poate fi combinata cu alte campuri.",
+      400
+    )
+  }
+
+  if (
+    body.action !== "open" &&
+    body.action !== "start" &&
+    body.action !== "complete"
+  ) {
+    throw new TournamentApiError("Actiune de status invalida.", 400)
+  }
+
+  return true
+}
+
+function getLifecycleSuccessMessage(action: TournamentLifecycleAction) {
+  if (action === "open") {
+    return "Turneu deschis cu succes."
+  }
+
+  if (action === "start") {
+    return "Turneu pornit cu succes."
+  }
+
+  return "Turneu finalizat cu succes."
 }
 
 async function readJsonBody(request: Request): Promise<unknown> {

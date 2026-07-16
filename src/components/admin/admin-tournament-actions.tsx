@@ -1,10 +1,11 @@
 "use client"
 
-import { Pencil, Trash2 } from "lucide-react"
+import { CheckCircle2, Pencil, Play, Rocket, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
+import type { TournamentWithRelations } from "@/repositories/tournament.repository"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button"
 type AdminTournamentActionsProps = {
   id: string
   name: string
+  status: TournamentWithRelations["status"]
 }
 
 type TournamentApiResponse = {
@@ -28,19 +30,55 @@ type TournamentApiResponse = {
   message?: string
 }
 
+type Operation = "open" | "start" | "complete" | "delete"
+
 export function AdminTournamentActions({
   id,
   name,
+  status,
 }: AdminTournamentActionsProps) {
   const router = useRouter()
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [activeOperation, setActiveOperation] = useState<Operation | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+  const isBusy = activeOperation !== null
+  const lifecycleAction = getLifecycleAction(status)
+
+  async function handleLifecycleAction(action: Exclude<Operation, "delete">) {
+    setError(null)
+    setSuccess(null)
+    setActiveOperation(action)
+
+    try {
+      const response = await fetch(`/api/tournaments/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action,
+        }),
+      })
+      const data = await readTournamentApiResponse(response)
+
+      if (!response.ok) {
+        setError(data.error ?? getDefaultLifecycleErrorMessage(action))
+        return
+      }
+
+      setSuccess(data.message ?? getDefaultLifecycleSuccessMessage(action))
+      router.refresh()
+    } catch {
+      setError(getUnexpectedLifecycleErrorMessage(action))
+    } finally {
+      setActiveOperation(null)
+    }
+  }
 
   async function handleDelete() {
     setError(null)
     setSuccess(null)
-    setIsDeleting(true)
+    setActiveOperation("delete")
 
     try {
       const response = await fetch(`/api/tournaments/${id}`, {
@@ -58,14 +96,14 @@ export function AdminTournamentActions({
     } catch {
       setError("A aparut o eroare la stergerea turneului.")
     } finally {
-      setIsDeleting(false)
+      setActiveOperation(null)
     }
   }
 
   return (
     <div className="flex flex-col items-end gap-2">
       <div className="flex flex-wrap justify-end gap-2">
-        {isDeleting ? (
+        {isBusy ? (
           <Button disabled size="sm" variant="outline">
             <Pencil />
             Editeaza
@@ -79,16 +117,31 @@ export function AdminTournamentActions({
           </Button>
         )}
 
+        {lifecycleAction ? (
+          <Button
+            disabled={isBusy}
+            onClick={() => handleLifecycleAction(lifecycleAction)}
+            size="sm"
+            type="button"
+            variant="outline"
+          >
+            {getLifecycleIcon(lifecycleAction)}
+            {activeOperation === lifecycleAction
+              ? getLifecycleLoadingLabel(lifecycleAction)
+              : getLifecycleLabel(lifecycleAction)}
+          </Button>
+        ) : null}
+
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
-              disabled={isDeleting}
+              disabled={isBusy}
               size="sm"
               type="button"
               variant="destructive"
             >
               <Trash2 />
-              {isDeleting ? "Se sterge..." : "Sterge"}
+              {activeOperation === "delete" ? "Se sterge..." : "Sterge"}
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -100,12 +153,12 @@ export function AdminTournamentActions({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel disabled={isDeleting}>
+              <AlertDialogCancel disabled={isBusy}>
                 Renunta
               </AlertDialogCancel>
               <AlertDialogAction asChild>
                 <Button
-                  disabled={isDeleting}
+                  disabled={isBusy}
                   onClick={handleDelete}
                   type="button"
                   variant="destructive"
@@ -130,6 +183,102 @@ export function AdminTournamentActions({
       ) : null}
     </div>
   )
+}
+
+function getLifecycleAction(
+  status: TournamentWithRelations["status"]
+): Exclude<Operation, "delete"> | null {
+  if (status === "DRAFT") {
+    return "open"
+  }
+
+  if (status === "OPEN" || status === "FULL") {
+    return "start"
+  }
+
+  if (status === "IN_PROGRESS") {
+    return "complete"
+  }
+
+  return null
+}
+
+function getLifecycleIcon(action: Exclude<Operation, "delete">) {
+  if (action === "open") {
+    return <Rocket />
+  }
+
+  if (action === "start") {
+    return <Play />
+  }
+
+  return <CheckCircle2 />
+}
+
+function getLifecycleLabel(action: Exclude<Operation, "delete">) {
+  if (action === "open") {
+    return "Deschide turneu"
+  }
+
+  if (action === "start") {
+    return "Porneste turneu"
+  }
+
+  return "Finalizeaza turneu"
+}
+
+function getLifecycleLoadingLabel(action: Exclude<Operation, "delete">) {
+  if (action === "open") {
+    return "Se deschide..."
+  }
+
+  if (action === "start") {
+    return "Se porneste..."
+  }
+
+  return "Se finalizeaza..."
+}
+
+function getDefaultLifecycleErrorMessage(
+  action: Exclude<Operation, "delete">
+) {
+  if (action === "open") {
+    return "Turneul nu a putut fi deschis."
+  }
+
+  if (action === "start") {
+    return "Turneul nu a putut fi pornit."
+  }
+
+  return "Turneul nu a putut fi finalizat."
+}
+
+function getDefaultLifecycleSuccessMessage(
+  action: Exclude<Operation, "delete">
+) {
+  if (action === "open") {
+    return "Turneu deschis cu succes."
+  }
+
+  if (action === "start") {
+    return "Turneu pornit cu succes."
+  }
+
+  return "Turneu finalizat cu succes."
+}
+
+function getUnexpectedLifecycleErrorMessage(
+  action: Exclude<Operation, "delete">
+) {
+  if (action === "open") {
+    return "A aparut o eroare la deschiderea turneului."
+  }
+
+  if (action === "start") {
+    return "A aparut o eroare la pornirea turneului."
+  }
+
+  return "A aparut o eroare la finalizarea turneului."
 }
 
 async function readTournamentApiResponse(

@@ -113,6 +113,7 @@ export function AdminTournamentsTable({
                       <AdminTournamentActions
                         id={tournament.id}
                         name={tournament.name}
+                        status={tournament.status}
                       />
                     </td>
                   </tr>

@@ -10,6 +10,7 @@ import {
   Megaphone,
   ShieldCheck,
   Trophy,
+  UserCheck,
   Users,
 } from "lucide-react"
 
@@ -50,6 +51,11 @@ const adminNavigation = [
     icon: Trophy,
   },
   {
+    href: "/admin/inscrieri",
+    label: "Inscrieri",
+    icon: UserCheck,
+  },
+  {
     href: "/admin/sezoane",
     label: "Sezoane",
     icon: CalendarDays,
@@ -78,11 +84,11 @@ const adminGroups = [
   },
   {
     title: "Operatiuni",
-    items: adminNavigation.slice(2, 8),
+    items: adminNavigation.slice(2, 9),
   },
   {
     title: "Crestere",
-    items: adminNavigation.slice(8),
+    items: adminNavigation.slice(9),
   },
 ]
 

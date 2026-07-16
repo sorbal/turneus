@@ -40,6 +40,8 @@ export type UpdateTournamentInput = {
   maxPlayers?: number | string
 }
 
+export type TournamentLifecycleAction = "open" | "start" | "complete"
+
 export class TournamentServiceError extends Error {
   constructor(message: string) {
     super(message)
@@ -190,6 +192,25 @@ export async function updateTournamentRecord(
   return updateTournament(id, data)
 }
 
+export async function updateTournamentLifecycleStatus(
+  id: string,
+  action: TournamentLifecycleAction
+) {
+  assertId(id)
+
+  const existingTournament = await findTournamentById(id)
+
+  if (!existingTournament) {
+    throw new TournamentServiceError("Turneul nu exista.")
+  }
+
+  const nextStatus = getNextTournamentStatus(existingTournament.status, action)
+
+  return updateTournament(id, {
+    status: nextStatus,
+  })
+}
+
 export async function deleteTournamentRecord(id: string) {
   assertId(id)
 
@@ -210,6 +231,36 @@ export async function deleteTournamentRecord(id: string) {
   assertTournamentCanBeDeleted(relationCounts)
 
   return deleteTournament(id)
+}
+
+function getNextTournamentStatus(
+  currentStatus: TournamentUpdateData["status"],
+  action: TournamentLifecycleAction
+) {
+  if (currentStatus === "COMPLETED") {
+    throw new TournamentServiceError(
+      "Turneele finalizate nu mai pot fi modificate prin aceste actiuni."
+    )
+  }
+
+  if (action === "open" && currentStatus === "DRAFT") {
+    return "OPEN"
+  }
+
+  if (
+    action === "start" &&
+    (currentStatus === "OPEN" || currentStatus === "FULL")
+  ) {
+    return "IN_PROGRESS"
+  }
+
+  if (action === "complete" && currentStatus === "IN_PROGRESS") {
+    return "COMPLETED"
+  }
+
+  throw new TournamentServiceError(
+    "Tranzitia de status nu este permisa pentru acest turneu."
+  )
 }
 
 function normalizeRequiredText(value: string, message: string) {
