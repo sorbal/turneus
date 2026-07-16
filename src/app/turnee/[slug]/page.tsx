@@ -13,10 +13,13 @@ import {
 } from "lucide-react"
 
 import { PublicShell } from "@/components/public/public-shell"
+import { PublicRegistrationAction } from "@/components/public/public-registration-action"
 import { Button } from "@/components/ui/button"
+import { getCurrentUser } from "@/lib/auth/current-user"
 import { getTournamentStatusLabel } from "@/lib/tournament-status"
 import { cn } from "@/lib/utils"
 import type { PublicTournamentDetails } from "@/repositories/tournament.repository"
+import { getRegistrationByTournamentAndUser } from "@/services/registration.service"
 import { getPublicTournamentBySlug } from "@/services/tournament.service"
 
 type PublicTournamentDetailsPageProps = {
@@ -56,6 +59,10 @@ export default async function PublicTournamentDetailsPage({
   }
 
   const occupiedSeats = tournament.activeRegistrationsCount
+  const currentUser = await getCurrentUser()
+  const registration = currentUser
+    ? await getRegistrationByTournamentAndUser(tournament.id, currentUser.id)
+    : null
 
   return (
     <PublicShell>
@@ -177,6 +184,20 @@ export default async function PublicTournamentDetailsPage({
             icon={<Users className="size-4" />}
             label="Locuri"
             value={`${occupiedSeats} ocupate din ${tournament.maxPlayers}`}
+          />
+          <PublicRegistrationAction
+            currentUserRole={currentUser?.role ?? null}
+            isTournamentOrganizer={
+              currentUser?.id === tournament.organizer.user.id
+            }
+            maxPlayers={tournament.maxPlayers}
+            occupiedSeats={occupiedSeats}
+            registrationId={registration?.id ?? null}
+            registrationStatus={registration?.status ?? null}
+            startsAt={tournament.startsAt.toISOString()}
+            tournamentId={tournament.id}
+            tournamentSlug={tournament.slug}
+            tournamentStatus={tournament.status}
           />
         </aside>
       </section>

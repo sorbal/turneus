@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { getCities } from "@/services/city.service"
 import { getGames } from "@/services/game.service"
 import { getPublicTournaments } from "@/services/tournament.service"
+import { getActiveUsersCount } from "@/services/user.service"
 
 const howItWorksSteps = [
   {
@@ -30,15 +31,13 @@ const howItWorksSteps = [
 ]
 
 export default async function Home() {
-  const [tournaments, cities, games] = await Promise.all([
+  const [tournaments, cities, games, activeUsersCount] = await Promise.all([
     getPublicTournaments(),
     getCities(),
     getGames(),
+    getActiveUsersCount(),
   ])
   const now = Date.now()
-  const openTournamentsCount = tournaments.filter(
-    (tournament) => tournament.status === "OPEN"
-  ).length
   const openUpcomingTournaments = tournaments
     .filter(
       (tournament) =>
@@ -85,7 +84,7 @@ export default async function Home() {
               </p>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 <HeroMetric label="Turnee" value={tournaments.length} />
-                <HeroMetric label="Turnee OPEN" value={openTournamentsCount} />
+                <HeroMetric label="Membri Turneus" value={activeUsersCount} />
                 <HeroMetric label="Orase" value={cities.length} />
                 <HeroMetric label="Jocuri" value={games.length} />
               </div>

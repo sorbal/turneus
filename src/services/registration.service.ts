@@ -1,8 +1,7 @@
-import type { RegistrationStatus } from "@/generated/prisma/client"
+import type { RegistrationStatus, UserRole } from "@/generated/prisma/client"
 import {
   cancelRegistration,
-  countActiveRegistrationsByTournament,
-  createRegistration,
+  createOrReactivateRegistrationWithCapacity,
   findRegistrationById,
   findRegistrationByTournamentAndUser,
   findRegistrations,
@@ -15,6 +14,7 @@ import { findUserById } from "@/repositories/user.repository"
 export type CreateRegistrationInput = {
   tournamentId: string
   userId: string
+  mode?: "admin" | "public"
 }
 
 export class RegistrationServiceError extends Error {
@@ -33,6 +33,25 @@ export async function getRegistrationById(id: string) {
   return findRegistrationById(id)
 }
 
+export async function getRegistrationByTournamentAndUser(
+  tournamentId: string,
+  userId: string
+) {
+  const normalizedTournamentId = normalizeRequiredText(
+    tournamentId,
+    "Turneul este obligatoriu."
+  )
+  const normalizedUserId = normalizeRequiredText(
+    userId,
+    "Utilizatorul este obligatoriu."
+  )
+
+  return findRegistrationByTournamentAndUser(
+    normalizedTournamentId,
+    normalizedUserId
+  )
+}
+
 export async function createRegistrationRecord(
   input: CreateRegistrationInput
 ) {
@@ -45,10 +64,9 @@ export async function createRegistrationRecord(
     "Utilizatorul este obligatoriu."
   )
 
-  const [tournament, user, existingRegistration] = await Promise.all([
+  const [tournament, user] = await Promise.all([
     findTournamentById(tournamentId),
     findUserById(userId),
-    findRegistrationByTournamentAndUser(tournamentId, userId),
   ])
 
   if (!user) {
@@ -65,20 +83,25 @@ export async function createRegistrationRecord(
 
   assertTournamentIsOpen(tournament.status)
   assertTournamentHasNotStarted(tournament.startsAt)
+  assertRegistrationActorIsEligible(input.mode ?? "admin", user.role)
+  assertUserIsNotTournamentOrganizer(
+    input.mode ?? "admin",
+    user.id,
+    tournament.organizer.user.id
+  )
 
-  if (existingRegistration) {
-    throw new RegistrationServiceError(
-      "Utilizatorul este deja inscris la acest turneu."
-    )
-  }
+  const initialStatus = getInitialRegistrationStatus(tournament.entryFee)
 
-  await assertTournamentHasCapacity(tournamentId, tournament.maxPlayers)
+  const result = await createOrReactivateRegistrationWithCapacity(
+    {
+      tournamentId,
+      userId,
+      status: initialStatus,
+    },
+    tournament.maxPlayers
+  )
 
-  return createRegistration({
-    tournamentId,
-    userId,
-    status: getInitialRegistrationStatus(tournament.entryFee),
-  })
+  return handleCapacityWriteResult(result)
 }
 
 export async function checkInRegistration(id: string) {
@@ -129,16 +152,63 @@ function getInitialRegistrationStatus(
   return "PENDING_PAYMENT"
 }
 
-async function assertTournamentHasCapacity(
-  tournamentId: string,
-  maxPlayers: number
+function handleCapacityWriteResult(
+  result: Awaited<ReturnType<typeof createOrReactivateRegistrationWithCapacity>>
 ) {
-  const activeRegistrations =
-    await countActiveRegistrationsByTournament(tournamentId)
+  if (result.outcome === "duplicate") {
+    throw new RegistrationServiceError(
+      "Utilizatorul este deja inscris la acest turneu."
+    )
+  }
 
-  if (activeRegistrations >= maxPlayers) {
+  if (result.outcome === "full") {
     throw new RegistrationServiceError(
       "Turneul nu mai are locuri disponibile."
+    )
+  }
+
+  if (result.outcome === "capacity_conflict") {
+    throw new RegistrationServiceError(
+      "Inscrierea nu a putut fi procesata din cauza numarului mare de cereri simultane. Te rugam sa incerci din nou."
+    )
+  }
+
+  return result.registration
+}
+
+function assertRegistrationActorIsEligible(
+  mode: "admin" | "public",
+  role: UserRole
+) {
+  if (mode === "admin") {
+    return
+  }
+
+  if (role === "ADMIN") {
+    throw new RegistrationServiceError(
+      "Administratorii nu se pot inscrie prin fluxul public."
+    )
+  }
+
+  if (role !== "PLAYER" && role !== "ORGANIZER") {
+    throw new RegistrationServiceError(
+      "Doar utilizatorii PLAYER sau ORGANIZER se pot inscrie public."
+    )
+  }
+}
+
+function assertUserIsNotTournamentOrganizer(
+  mode: "admin" | "public",
+  userId: string,
+  organizerUserId: string
+) {
+  if (mode === "admin") {
+    return
+  }
+
+  if (userId === organizerUserId) {
+    throw new RegistrationServiceError(
+      "Organizatorul nu se poate inscrie la propriul turneu."
     )
   }
 }

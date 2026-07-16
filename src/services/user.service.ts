@@ -1,6 +1,7 @@
 import type { UserRole } from "@/generated/prisma/client"
 import { hashPassword } from "@/lib/auth/password"
 import {
+  countActiveUsers,
   findCityById,
   findUserByEmail,
   findUserById,
@@ -34,6 +35,10 @@ export class UserServiceError extends Error {
 
 export async function getUsers(search?: string) {
   return findUsers(search)
+}
+
+export async function getActiveUsersCount() {
+  return countActiveUsers()
 }
 
 export async function getUserById(id: string) {

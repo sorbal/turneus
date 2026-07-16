@@ -69,6 +69,14 @@ export async function findUsers(search?: string): Promise<UserWithRelations[]> {
   })
 }
 
+export async function countActiveUsers(): Promise<number> {
+  return prisma.user.count({
+    where: {
+      isActive: true,
+    },
+  })
+}
+
 export async function findUserById(
   id: string
 ): Promise<UserWithRelations | null> {

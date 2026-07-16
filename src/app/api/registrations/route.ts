@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
 import { requireAuth } from "@/lib/auth/require-auth"
+import { requireAdmin } from "@/lib/auth/require-admin"
 import {
   createRegistrationRecord,
   getRegistrations,
@@ -29,16 +30,18 @@ export async function POST(request: Request) {
   try {
     const currentUser = await requireAuth()
     const body = await readJsonBody(request)
-    const input = parseCreateRegistrationInput(body, currentUser.id)
 
-    if (input.userId !== currentUser.id && currentUser.role !== "ADMIN") {
-      throw new RegistrationApiError(
-        "Acces interzis. Admin necesar.",
-        403
-      )
+    if (usesAdminRegistrationFlow(body)) {
+      await requireAdmin()
     }
 
-    const registration = await createRegistrationRecord(input)
+    const input = parseCreateRegistrationInput(body, currentUser.id)
+
+    const registration = await createRegistrationRecord({
+      tournamentId: input.tournamentId,
+      userId: input.userId,
+      mode: input.mode,
+    })
 
     return NextResponse.json(
       {
@@ -74,17 +77,19 @@ function parseCreateRegistrationInput(
     throw new RegistrationApiError("Turneu invalid.", 400)
   }
 
+  const hasExplicitUserId = Object.prototype.hasOwnProperty.call(
+    body,
+    "userId"
+  )
+
   return {
     tournamentId: body.tournamentId,
-    userId: readOptionalUserId(body.userId) ?? currentUserId,
+    userId: hasExplicitUserId ? readRequiredUserId(body.userId) : currentUserId,
+    mode: hasExplicitUserId ? "admin" : "public",
   }
 }
 
-function readOptionalUserId(value: unknown) {
-  if (value === undefined) {
-    return undefined
-  }
-
+function readRequiredUserId(value: unknown) {
   if (typeof value !== "string") {
     throw new RegistrationApiError("Utilizator invalid.", 400)
   }
@@ -105,6 +110,10 @@ function assertOnlyAllowedFields(
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value)
+}
+
+function usesAdminRegistrationFlow(body: unknown) {
+  return isRecord(body) && Object.prototype.hasOwnProperty.call(body, "userId")
 }
 
 class RegistrationApiError extends Error {
