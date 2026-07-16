@@ -32,7 +32,11 @@ async function readNetopiaIpnForm(
   try {
     formData = await request.formData()
   } catch {
-    throw new PaymentServiceError("Body IPN invalid.", "permanent")
+    throw new PaymentServiceError(
+      "Body IPN invalid.",
+      "permanent",
+      "FORM_INVALID"
+    )
   }
 
   return {
@@ -47,10 +51,14 @@ function readRequiredFormValue(formData: FormData, key: string) {
   const value = formData.get(key)
 
   if (typeof value !== "string" || !value.trim()) {
-    throw new PaymentServiceError(`Camp IPN lipsa: ${key}.`, "permanent")
+    throw new PaymentServiceError(
+      `Camp IPN lipsa: ${key}.`,
+      "permanent",
+      "FORM_INVALID"
+    )
   }
 
-  return value
+  return normalizeBase64FormValue(value)
 }
 
 function readOptionalFormValue(formData: FormData, key: string) {
@@ -61,14 +69,20 @@ function readOptionalFormValue(formData: FormData, key: string) {
   }
 
   if (typeof value !== "string") {
-    throw new PaymentServiceError(`Camp IPN invalid: ${key}.`, "permanent")
+    throw new PaymentServiceError(
+      `Camp IPN invalid: ${key}.`,
+      "permanent",
+      "FORM_INVALID"
+    )
   }
 
-  return value.trim() ? value : null
+  return value.trim() ? normalizeBase64FormValue(value) : null
 }
 
 function handleNetopiaIpnError(error: unknown) {
   if (error instanceof PaymentServiceError) {
+    console.error(error.diagnosticCode ?? "NETOPIA_IPN_ERROR")
+
     if (error.errorType === "permanent") {
       return createNetopiaCrcResponse({
         errorType: 2,
@@ -91,6 +105,10 @@ function handleNetopiaIpnError(error: unknown) {
     errorCode: 1,
     message: "Eroare temporara la procesarea IPN.",
   })
+}
+
+function normalizeBase64FormValue(value: string) {
+  return value.trim().replaceAll(" ", "+")
 }
 
 function createNetopiaCrcResponse(error?: {

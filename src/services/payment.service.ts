@@ -9,6 +9,7 @@ import { findRegistrationById } from "@/repositories/registration.repository"
 import { getNetopiaConfig } from "@/lib/netopia/config"
 import {
   decryptNetopiaIpn,
+  NetopiaIpnError,
   type EncryptedNetopiaIpnInput,
   type NetopiaIpnPayload,
 } from "@/lib/netopia/ipn"
@@ -29,7 +30,8 @@ export type NetopiaIpnProcessingResult = {
 export class PaymentServiceError extends Error {
   constructor(
     message: string,
-    readonly errorType: "business" | "permanent" | "temporary" = "business"
+    readonly errorType: "business" | "permanent" | "temporary" = "business",
+    readonly diagnosticCode?: string
   ) {
     super(message)
     this.name = "PaymentServiceError"
@@ -128,7 +130,11 @@ export async function processNetopiaIpn(
   const config = getNetopiaConfig()
 
   if (payload.signature !== config.signature) {
-    throw new PaymentServiceError("Semnatura NETOPIA invalida.", "permanent")
+    throw new PaymentServiceError(
+      "Semnatura NETOPIA invalida.",
+      "permanent",
+      "SIGNATURE_INVALID"
+    )
   }
 
   if (payload.currency !== "RON") {
@@ -138,7 +144,11 @@ export async function processNetopiaIpn(
   const payment = await findPaymentById(payload.orderId)
 
   if (!payment) {
-    throw new PaymentServiceError("Plata nu exista.", "permanent")
+    throw new PaymentServiceError(
+      "Plata nu exista.",
+      "permanent",
+      "PAYMENT_NOT_FOUND"
+    )
   }
 
   assertNetopiaAmountMatchesPayment(payload, payment.amount)
@@ -150,7 +160,11 @@ export async function processNetopiaIpn(
   })
 
   if (!updatedPayment) {
-    throw new PaymentServiceError("Plata nu exista.", "permanent")
+    throw new PaymentServiceError(
+      "Plata nu exista.",
+      "permanent",
+      "PAYMENT_NOT_FOUND"
+    )
   }
 
   return {
@@ -163,8 +177,20 @@ export async function processNetopiaIpn(
 function decryptNetopiaIpnPayload(input: EncryptedNetopiaIpnInput) {
   try {
     return decryptNetopiaIpn(input)
-  } catch {
-    throw new PaymentServiceError("IPN NETOPIA invalid.", "permanent")
+  } catch (error) {
+    if (error instanceof NetopiaIpnError) {
+      throw new PaymentServiceError(
+        "IPN NETOPIA invalid.",
+        "permanent",
+        error.diagnosticCode
+      )
+    }
+
+    throw new PaymentServiceError(
+      "IPN NETOPIA invalid.",
+      "permanent",
+      "XML_PARSE_FAILED"
+    )
   }
 }
 
@@ -190,7 +216,11 @@ function assertNetopiaAmountMatchesPayment(
   ].filter((value): value is string => Boolean(value))
 
   if (callbackAmounts.length === 0) {
-    throw new PaymentServiceError("Suma NETOPIA lipseste.", "permanent")
+    throw new PaymentServiceError(
+      "Suma NETOPIA lipseste.",
+      "permanent",
+      "AMOUNT_INVALID"
+    )
   }
 
   const hasMatchingAmount = callbackAmounts.some(
@@ -198,7 +228,11 @@ function assertNetopiaAmountMatchesPayment(
   )
 
   if (!hasMatchingAmount) {
-    throw new PaymentServiceError("Suma NETOPIA invalida.", "permanent")
+    throw new PaymentServiceError(
+      "Suma NETOPIA invalida.",
+      "permanent",
+      "AMOUNT_INVALID"
+    )
   }
 }
 
@@ -206,7 +240,11 @@ function normalizeComparableAmount(value: string) {
   const amount = Number(value)
 
   if (!Number.isFinite(amount)) {
-    throw new PaymentServiceError("Suma NETOPIA invalida.", "permanent")
+    throw new PaymentServiceError(
+      "Suma NETOPIA invalida.",
+      "permanent",
+      "AMOUNT_INVALID"
+    )
   }
 
   return amount.toFixed(2)

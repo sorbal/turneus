@@ -15,6 +15,11 @@ import {
   parseXmlStrict,
 } from "@/lib/netopia/xml-parser"
 
+export type NetopiaIpnDiagnosticCode =
+  | "RSA_DECRYPT_FAILED"
+  | "AES_DECRYPT_FAILED"
+  | "XML_PARSE_FAILED"
+
 export type NetopiaIpnPayload = {
   orderId: string
   signature: string
@@ -44,6 +49,16 @@ export function decryptNetopiaIpn(
   return parseNetopiaIpnXml(decryptedXml)
 }
 
+export class NetopiaIpnError extends Error {
+  constructor(
+    message: string,
+    readonly diagnosticCode: NetopiaIpnDiagnosticCode
+  ) {
+    super(message)
+    this.name = "NetopiaIpnError"
+  }
+}
+
 function decryptNetopiaXml(
   input: EncryptedNetopiaIpnInput,
   privateKey: string
@@ -56,46 +71,87 @@ function decryptNetopiaXml(
     throw new Error("IV NETOPIA lipseste.")
   }
 
-  const aesKey = privateDecrypt(
-    {
-      key: privateKey,
-      padding: constants.RSA_PKCS1_PADDING,
-    },
-    Buffer.from(input.envKey, "base64")
-  )
-  const decipher = createDecipheriv(
-    "aes-256-cbc",
-    aesKey,
-    Buffer.from(input.iv, "base64")
-  )
-  const decryptedData = Buffer.concat([
-    decipher.update(Buffer.from(input.data, "base64")),
-    decipher.final(),
-  ])
+  const aesKey = decryptAesKey(input.envKey, privateKey)
+  const iv = Buffer.from(input.iv, "base64")
+
+  if (aesKey.length !== 32 || iv.length !== 16) {
+    throw new NetopiaIpnError(
+      "Parametri criptare NETOPIA invalizi.",
+      "AES_DECRYPT_FAILED"
+    )
+  }
+
+  const decryptedData = decryptAesPayload(input.data, aesKey, iv)
 
   return decryptedData.toString("utf8")
 }
 
-function parseNetopiaIpnXml(xml: string): NetopiaIpnPayload {
-  const order = parseXmlStrict(xml)
+function decryptAesKey(envKey: string, privateKey: string) {
+  try {
+    return privateDecrypt(
+      {
+        key: privateKey,
+        padding: constants.RSA_PKCS1_PADDING,
+      },
+      Buffer.from(envKey, "base64")
+    )
+  } catch {
+    throw new NetopiaIpnError(
+      "Decriptare env_key NETOPIA esuata.",
+      "RSA_DECRYPT_FAILED"
+    )
+  }
+}
 
-  if (order.name !== "order") {
-    throw new Error("XML NETOPIA invalid.")
+function decryptAesPayload(data: string, aesKey: Buffer, iv: Buffer) {
+  try {
+    const decipher = createDecipheriv("aes-256-cbc", aesKey, iv)
+
+    return Buffer.concat([
+      decipher.update(Buffer.from(data, "base64")),
+      decipher.final(),
+    ])
+  } catch {
+    throw new NetopiaIpnError(
+      "Decriptare data NETOPIA esuata.",
+      "AES_DECRYPT_FAILED"
+    )
+  }
+}
+
+function parseNetopiaIpnXml(xml: string): NetopiaIpnPayload {
+  let order
+
+  try {
+    order = parseXmlStrict(xml)
+  } catch {
+    throw new NetopiaIpnError(
+      "XML NETOPIA invalid.",
+      "XML_PARSE_FAILED"
+    )
   }
 
-  const invoice = getRequiredChild(order, "invoice")
-  const mobilpay = getRequiredChild(order, "mobilpay")
-  const error = getRequiredChild(mobilpay, "error")
+  if (order.name !== "order") {
+    throw new NetopiaIpnError("XML NETOPIA invalid.", "XML_PARSE_FAILED")
+  }
 
-  return {
-    orderId: getRequiredAttribute(order, "id"),
-    signature: getRequiredText(order, "signature"),
-    currency: getRequiredAttribute(invoice, "currency"),
-    invoiceAmount: getRequiredAttribute(invoice, "amount"),
-    action: getRequiredText(mobilpay, "action"),
-    errorCode: getRequiredAttribute(error, "code"),
-    purchase: getOptionalText(mobilpay, "purchase"),
-    originalAmount: getOptionalText(mobilpay, "original_amount"),
-    processedAmount: getOptionalText(mobilpay, "processed_amount"),
+  try {
+    const invoice = getRequiredChild(order, "invoice")
+    const mobilpay = getRequiredChild(order, "mobilpay")
+    const error = getRequiredChild(mobilpay, "error")
+
+    return {
+      orderId: getRequiredAttribute(order, "id"),
+      signature: getRequiredText(order, "signature"),
+      currency: getRequiredAttribute(invoice, "currency"),
+      invoiceAmount: getRequiredAttribute(invoice, "amount"),
+      action: getRequiredText(mobilpay, "action"),
+      errorCode: getRequiredAttribute(error, "code"),
+      purchase: getOptionalText(mobilpay, "purchase"),
+      originalAmount: getOptionalText(mobilpay, "original_amount"),
+      processedAmount: getOptionalText(mobilpay, "processed_amount"),
+    }
+  } catch {
+    throw new NetopiaIpnError("XML NETOPIA invalid.", "XML_PARSE_FAILED")
   }
 }
