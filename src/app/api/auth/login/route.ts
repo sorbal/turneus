@@ -59,6 +59,7 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
+      domain: getSessionCookieDomain(),
       maxAge: 60 * 60 * 24 * 7,
     });
 
@@ -71,4 +72,8 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+function getSessionCookieDomain() {
+  return process.env.NODE_ENV === "production" ? ".turneus.ro" : undefined;
 }

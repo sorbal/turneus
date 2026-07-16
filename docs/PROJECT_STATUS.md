@@ -1,6 +1,6 @@
 # TURNEUS - PROJECT STATUS
 
-Ultima actualizare: 2026-07-16
+Ultima actualizare: 2026-07-17
 
 ---
 
@@ -229,12 +229,22 @@ Implementat
 - Formular adaugare inscriere
 - Link Inscrieri in sidebar
 - Tournament Registrations MVP complet
+- Public Tournament Details
+- Registration Flow public
+- Netopia Sandbox Integration
+- Payment Repository
+- Payment Service
+- Payments API
+- NETOPIA API v1 request criptat
+- NETOPIA IPN public securizat
+- Pagina rezultat plata /plata/rezultat
 
 Urmeaza
 
-- Public Tournament Details
-- Registration Flow
-- Netopia Integration
+- Pagini juridice / compliance NETOPIA
+- Acceptarea termenilor la checkout
+- Teste finale NETOPIA
+- Trecere controlata pe NETOPIA LIVE
 
 ---
 
@@ -261,6 +271,12 @@ Implementat
 - Public Tournament List /turnee
 - Public Tournament Filters
 - Tournament Status UI helper
+- Public Tournament Details /turnee/[slug]
+- Public Registration Action
+- Login public dark premium
+- Redirect inapoi dupa autentificare
+- Pagina rezultat plata
+- Homepage metric Membri Turneus activi
 
 Design ales
 
@@ -312,6 +328,40 @@ Finalizat
 - Public Tournament Cards implementate
 - Public Tournament List /turnee implementata
 - Tournament Status UI helper implementat
+- Public Tournament Details implementat
+- Pagina /turnee/[slug]
+- Date publice turneu
+- Statusuri publice turneu
+- Locuri active fara inscrieri CANCELLED
+- Metadata si notFound pentru turnee publice
+- Registration Flow public implementat
+- Inscriere publica PLAYER / ORGANIZER
+- ADMIN blocat in flow public
+- Organizator blocat la propriul turneu
+- Turneu gratuit -> CONFIRMED
+- Turneu cu taxa -> PENDING_PAYMENT
+- Reactivare inscriere CANCELLED
+- Protectie capacitate cu tranzactie Serializable
+- UI inscriere publica si redirect dupa login
+- Statusuri publice ale inscrierii
+- Netopia Sandbox Integration implementata
+- Payment Repository
+- Payment Service
+- Payments API
+- NETOPIA API v1 request XML criptat AES-256-CBC + RSA
+- Sandbox configurat
+- Redirect catre NETOPIA
+- IPN public securizat
+- Validare signature, suma, moneda si payment
+- Update atomic Payment + Registration
+- Idempotenta callback NETOPIA
+- Pagina /plata/rezultat
+- Plata Sandbox de 1 RON testata cu succes
+- Payment PAID si Registration CONFIRMED verificate
+- Compatibilitate OpenSSL pentru decriptarea IPN
+- Cookie auth compatibil apex/www la revenirea din NETOPIA
+- Homepage: Turnee OPEN inlocuit cu Membri Turneus activi
+- Login public dark premium
 
 ---
 
@@ -321,9 +371,16 @@ Sprint 5
 
 Obiective
 
-- Public Tournament Details
-- Registration Flow
-- Netopia Integration
+- Pagini juridice / compliance NETOPIA
+- Acceptarea termenilor la checkout
+- Teste finale NETOPIA
+- Trecere controlata pe NETOPIA LIVE
+
+Note
+
+- v0.5.0 ramane IN DEZVOLTARE.
+- Netopia Sandbox este functional.
+- Productia NETOPIA nu este activata in aplicatie.
 
 ---
 
@@ -335,7 +392,7 @@ working tree cu modificari necomise
 
 Ultima verificare
 
-2026-07-16
+2026-07-17
 
 ---
 

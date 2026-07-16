@@ -10,8 +10,13 @@ export async function POST() {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
+    domain: getSessionCookieDomain(),
     maxAge: 0,
   });
 
   return response;
+}
+
+function getSessionCookieDomain() {
+  return process.env.NODE_ENV === "production" ? ".turneus.ro" : undefined;
 }

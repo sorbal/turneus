@@ -1,6 +1,6 @@
 # TURNEUS - CHANGELOG
 
-Ultima actualizare: 2026-07-16
+Ultima actualizare: 2026-07-17
 
 ---
 
@@ -206,12 +206,51 @@ Implementat
 - Public Tournament Filters
 - Tournament Status UI helper
 - Traducere statusuri turnee in limba romana
+- Public Tournament Details /turnee/[slug]
+- Date publice turneu
+- Statusuri publice turneu
+- Locuri active fara inscrieri CANCELLED
+- Metadata dinamica si notFound
+- Registration Flow public
+- Inscriere publica PLAYER / ORGANIZER
+- ADMIN blocat in flow public
+- Organizator blocat la propriul turneu
+- Turneu gratuit -> CONFIRMED
+- Turneu cu taxa -> PENDING_PAYMENT
+- Reactivare inscriere CANCELLED
+- Protectie capacitate cu tranzactie Serializable
+- UI inscriere publica
+- Redirect inapoi dupa autentificare
+- Statusuri publice ale inscrierii
+- Payment Repository
+- Payment Service
+- Payments API
+- NETOPIA API v1 request XML criptat AES-256-CBC + RSA
+- NETOPIA Sandbox configurat
+- Redirect catre NETOPIA
+- IPN public securizat
+- Validare signature, suma, moneda si payment
+- Update atomic Payment + Registration
+- Idempotenta callback NETOPIA
+- Pagina /plata/rezultat
+- Plata Sandbox de 1 RON testata cu succes
+- Payment PAID si Registration CONFIRMED verificate
+- Compatibilitate OpenSSL pentru decriptarea IPN
+- Cookie auth compatibil apex/www la revenirea din NETOPIA
+- Homepage: Turnee OPEN inlocuit cu Membri Turneus activi
+- Login public dark premium
 
 Urmeaza
 
-- Public Tournament Details
-- Registration Flow
-- Netopia Integration
+- Pagini juridice / compliance NETOPIA
+- Acceptarea termenilor la checkout
+- Teste finale NETOPIA
+- Trecere controlata pe NETOPIA LIVE
+
+Note
+
+- Netopia Sandbox este functional.
+- Productia NETOPIA nu este activata in aplicatie.
 
 ---
 

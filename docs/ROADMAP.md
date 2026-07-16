@@ -1,6 +1,6 @@
 # TURNEUS - ROADMAP
 
-Ultima actualizare: 2026-07-16
+Ultima actualizare: 2026-07-17
 
 ---
 
@@ -61,12 +61,24 @@ Obiective:
 - Public Tournament Cards - FINALIZAT
 - Public Tournament List /turnee - FINALIZAT
 - Tournament Status UI helper - FINALIZAT
+- Public Tournament Details /turnee/[slug] - FINALIZAT
+- Registration Flow public - FINALIZAT
+- Netopia Sandbox Integration - FINALIZAT
+- Homepage metric Membri Turneus activi - FINALIZAT
+- Login public dark premium - FINALIZAT
 
 Urmatorul Epic:
 
-- Public Tournament Details - URMEAZA
-- Registration Flow - URMEAZA
-- Netopia Integration - URMEAZA
+- Pagini juridice / compliance NETOPIA - URMEAZA
+- Acceptarea termenilor la checkout - URMEAZA
+- Teste finale NETOPIA - URMEAZA
+- Trecere controlata pe NETOPIA LIVE - URMEAZA
+
+Note:
+
+- v0.5.0 ramane IN DEZVOLTARE.
+- Netopia Sandbox este functional.
+- Productia NETOPIA nu este activata in aplicatie.
 
 ---
 
