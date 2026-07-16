@@ -81,7 +81,7 @@ Project
 # v0.3.0
 
 Status:
-IN DEZVOLTARE
+FINALIZAT
 
 Implementat
 
@@ -106,17 +106,10 @@ Implementat
 - Reusable Game Form
 - Reusable Game Actions
 
-Urmeaza
-
-- Cities CRUD
-- Organizers CRUD
-
----
-
 # v0.4.0
 
 Status:
-IN DEZVOLTARE
+FINALIZAT
 
 Implementat
 
@@ -163,9 +156,62 @@ Implementat
 - Reusable Venue Actions
 - Venues CRUD complet
 
+# v0.5.0
+
+Status:
+IN DEZVOLTARE
+
+Implementat
+
+- Tournament Repository
+- Tournament Service
+- Tournament API
+- Admin Tournaments List
+- Add Tournament
+- Edit Tournament
+- Delete Tournament
+- Tournament CRUD complet
+- Link Turnee in sidebar
+- Seasons Repository
+- Seasons Service
+- Seasons API
+- Admin Seasons List
+- Add Season
+- Edit Season
+- Activate Season
+- Delete Season
+- Link Sezoane in sidebar
+- Seasons CRUD complet
+- Tournament Lifecycle
+- Tranzitie DRAFT -> OPEN
+- Tranzitie OPEN -> IN_PROGRESS
+- Tranzitie FULL -> IN_PROGRESS
+- Tranzitie IN_PROGRESS -> COMPLETED
+- Tournament Registrations Repository
+- Tournament Registrations Service
+- Tournament Registrations API
+- Admin Registrations List
+- Admin Registration Actions
+- Admin Add Registration
+- Link Inscrieri in sidebar
+- Tournament Registrations complet pentru MVP admin
+- Public Foundation
+- Public Header
+- Public Footer
+- Public Shell
+- Homepage publica
+- Public Tournament Cards
+- Public Tournament Grid
+- Public Tournament List /turnee
+- Public Tournament Filters
+- Tournament Status UI helper
+- Traducere statusuri turnee in limba romana
+
 Urmeaza
 
-- Tournament CRUD
+- Public Tournament Details
+- Registration Flow
+- Netopia Integration
 
 ---
 

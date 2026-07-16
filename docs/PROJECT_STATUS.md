@@ -10,10 +10,10 @@ Proiect:
 ACTIV
 
 Versiune:
-v0.4.0
+v0.5.0
 
 Sprint curent:
-Sprint 4
+Sprint 5
 
 Status Sprint:
 IN DEZVOLTARE
@@ -201,10 +201,40 @@ Implementat
 - Actiuni stergere locatie
 - Link Locatii in sidebar
 - Venues CRUD complet
+- Tournament Repository
+- Tournament Service
+- Tournament API
+- Admin Tournaments List
+- Formular adaugare turneu
+- Formular editare turneu
+- Actiuni stergere turneu
+- Link Turnee in sidebar
+- Tournament CRUD complet
+- Seasons Repository
+- Seasons Service
+- Seasons API
+- Admin Seasons List
+- Formular adaugare sezon
+- Formular editare sezon
+- Actiuni activare / stergere sezon
+- Link Sezoane in sidebar
+- Seasons CRUD complet
+- Tournament Lifecycle
+- Actiuni deschidere / pornire / finalizare turneu
+- Tournament Registrations Repository
+- Tournament Registrations Service
+- Tournament Registrations API
+- Admin Registrations List
+- Actiuni check-in / anulare inscriere
+- Formular adaugare inscriere
+- Link Inscrieri in sidebar
+- Tournament Registrations MVP complet
 
 Urmeaza
 
-- Tournament CRUD
+- Public Tournament Details
+- Registration Flow
+- Netopia Integration
 
 ---
 
@@ -221,6 +251,16 @@ Implementat
 - Radix UI
 - Lucide Icons
 - Geist Font
+- Public Foundation
+- Public Header
+- Public Footer
+- Public Shell
+- Homepage publica
+- Public Tournament Cards
+- Public Tournament Grid
+- Public Tournament List /turnee
+- Public Tournament Filters
+- Tournament Status UI helper
 
 Design ales
 
@@ -263,16 +303,27 @@ Finalizat
 - Organizers CRUD finalizat
 - User Management finalizat
 - Venues CRUD finalizat
+- Tournament CRUD finalizat
+- Seasons CRUD finalizat
+- Tournament Lifecycle implementat
+- Tournament Registrations implementat
+- Public Foundation implementat
+- Homepage publica implementata
+- Public Tournament Cards implementate
+- Public Tournament List /turnee implementata
+- Tournament Status UI helper implementat
 
 ---
 
 # NEXT STEP
 
-Sprint 4
+Sprint 5
 
 Obiective
 
-- Tournament CRUD
+- Public Tournament Details
+- Registration Flow
+- Netopia Integration
 
 ---
 
@@ -284,7 +335,7 @@ working tree cu modificari necomise
 
 Ultima verificare
 
-2026-07-15
+2026-07-16
 
 ---
 

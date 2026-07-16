@@ -6,7 +6,7 @@ Ultima actualizare: 2026-07-16
 
 # v0.3.0
 
-Status: IN DEZVOLTARE
+Status: FINALIZAT
 
 Obiective:
 
@@ -31,10 +31,6 @@ Games CRUD:
 - Task 6B: Games API - FINALIZAT
 - Task 6C: Admin Games UI - DONE
 
-Urmatorul task:
-
-- User Management - URMEAZA
-
 ---
 
 # v0.4.0
@@ -48,22 +44,29 @@ Obiective:
 - User Management - FINALIZAT
 - Venues CRUD - FINALIZAT
 
-Urmatorul task:
-
-- Tournament CRUD - URMEAZA
-
 ---
 
 # v0.5.0
 
-Status: PLANIFICAT
+Status: IN DEZVOLTARE
 
 Obiective:
 
-- Tournament CRUD
-- Tournament Registration
-- Tournament Settings
-- Tournament Stages
+- Tournament CRUD - FINALIZAT
+- Seasons CRUD - FINALIZAT
+- Tournament Lifecycle - FINALIZAT
+- Tournament Registrations - FINALIZAT
+- Public Foundation - FINALIZAT
+- Homepage publica - FINALIZAT
+- Public Tournament Cards - FINALIZAT
+- Public Tournament List /turnee - FINALIZAT
+- Tournament Status UI helper - FINALIZAT
+
+Urmatorul Epic:
+
+- Public Tournament Details - URMEAZA
+- Registration Flow - URMEAZA
+- Netopia Integration - URMEAZA
 
 ---
 
@@ -73,6 +76,8 @@ Status: PLANIFICAT
 
 Obiective:
 
+- Tournament Settings
+- Tournament Stages
 - Matches
 - Brackets
 - Results
