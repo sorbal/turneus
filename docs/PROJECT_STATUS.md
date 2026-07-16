@@ -192,10 +192,19 @@ Implementat
 - Resetare parola utilizator
 - Cautare utilizatori
 - User Management complet
+- Venue Repository
+- Venue Service
+- Venues API
+- Admin Venues List
+- Formular adaugare locatie
+- Formular editare locatie
+- Actiuni stergere locatie
+- Link Locatii in sidebar
+- Venues CRUD complet
 
 Urmeaza
 
-- Venues CRUD
+- Tournament CRUD
 
 ---
 
@@ -253,6 +262,7 @@ Finalizat
 - Cities CRUD finalizat
 - Organizers CRUD finalizat
 - User Management finalizat
+- Venues CRUD finalizat
 
 ---
 
@@ -262,7 +272,7 @@ Sprint 4
 
 Obiective
 
-- Venues CRUD
+- Tournament CRUD
 
 ---
 

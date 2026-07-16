@@ -2,6 +2,7 @@
 
 import {
   BadgeCheck,
+  Building2,
   Gamepad2,
   LayoutDashboard,
   MapPin,
@@ -31,6 +32,11 @@ const adminNavigation = [
     href: "/admin/orase",
     label: "Orase",
     icon: MapPin,
+  },
+  {
+    href: "/admin/locatii",
+    label: "Locatii",
+    icon: Building2,
   },
   {
     href: "/admin/organizatori",
@@ -66,11 +72,11 @@ const adminGroups = [
   },
   {
     title: "Operatiuni",
-    items: adminNavigation.slice(2, 6),
+    items: adminNavigation.slice(2, 7),
   },
   {
     title: "Crestere",
-    items: adminNavigation.slice(6),
+    items: adminNavigation.slice(7),
   },
 ]
 

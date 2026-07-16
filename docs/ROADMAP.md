@@ -39,14 +39,18 @@ Urmatorul task:
 
 # v0.4.0
 
-Status: IN DEZVOLTARE
+Status: FINALIZAT
 
 Obiective:
 
 - Cities CRUD - FINALIZAT
 - Organizers CRUD - FINALIZAT
 - User Management - FINALIZAT
-- Venues CRUD - URMEAZA
+- Venues CRUD - FINALIZAT
+
+Urmatorul task:
+
+- Tournament CRUD - URMEAZA
 
 ---
 

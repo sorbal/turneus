@@ -152,10 +152,20 @@ Implementat
 - Promote / Demote ADMIN
 - Password Reset
 - User Management complet
+- Venue Repository
+- Venue Service
+- Venues API
+- Admin Venues List
+- Add Venue
+- Edit Venue
+- Delete Venue
+- Reusable Venue Form
+- Reusable Venue Actions
+- Venues CRUD complet
 
 Urmeaza
 
-- Venues CRUD
+- Tournament CRUD
 
 ---
 
