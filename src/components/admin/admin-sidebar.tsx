@@ -3,6 +3,7 @@
 import {
   BadgeCheck,
   Building2,
+  CalendarDays,
   Gamepad2,
   LayoutDashboard,
   MapPin,
@@ -49,6 +50,11 @@ const adminNavigation = [
     icon: Trophy,
   },
   {
+    href: "/admin/sezoane",
+    label: "Sezoane",
+    icon: CalendarDays,
+  },
+  {
     href: "/admin/utilizatori",
     label: "Utilizatori",
     icon: Users,
@@ -72,11 +78,11 @@ const adminGroups = [
   },
   {
     title: "Operatiuni",
-    items: adminNavigation.slice(2, 7),
+    items: adminNavigation.slice(2, 8),
   },
   {
     title: "Crestere",
-    items: adminNavigation.slice(7),
+    items: adminNavigation.slice(8),
   },
 ]
 
