@@ -8,18 +8,18 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
-import type { TournamentWithRelations } from "@/repositories/tournament.repository"
+import type { PublicTournamentDetails } from "@/repositories/tournament.repository"
 import { cn } from "@/lib/utils"
 import { getTournamentStatusLabel } from "@/lib/tournament-status"
 
 type PublicTournamentCardProps = {
-  tournament: TournamentWithRelations
+  tournament: PublicTournamentDetails
 }
 
 export function PublicTournamentCard({
   tournament,
 }: PublicTournamentCardProps) {
-  const occupiedSeats = tournament._count.registrations
+  const occupiedSeats = tournament.activeRegistrationsCount
 
   return (
     <Link
@@ -96,14 +96,14 @@ function formatDateTime(value: Date) {
   }).format(value)
 }
 
-function formatCurrency(value: TournamentWithRelations["entryFee"]) {
+function formatCurrency(value: PublicTournamentDetails["entryFee"]) {
   return new Intl.NumberFormat("ro-RO", {
     style: "currency",
     currency: "RON",
   }).format(Number(value))
 }
 
-function getStatusClassName(status: TournamentWithRelations["status"]) {
+function getStatusClassName(status: PublicTournamentDetails["status"]) {
   if (status === "OPEN") {
     return "bg-emerald-500/15 text-emerald-300"
   }

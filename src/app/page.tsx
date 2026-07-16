@@ -6,7 +6,7 @@ import { PublicTournamentGrid } from "@/components/public/public-tournament-grid
 import { Button } from "@/components/ui/button"
 import { getCities } from "@/services/city.service"
 import { getGames } from "@/services/game.service"
-import { getTournaments } from "@/services/tournament.service"
+import { getPublicTournaments } from "@/services/tournament.service"
 
 const howItWorksSteps = [
   {
@@ -31,7 +31,7 @@ const howItWorksSteps = [
 
 export default async function Home() {
   const [tournaments, cities, games] = await Promise.all([
-    getTournaments(),
+    getPublicTournaments(),
     getCities(),
     getGames(),
   ])

@@ -1,8 +1,8 @@
 import { PublicTournamentCard } from "@/components/public/public-tournament-card"
-import type { TournamentWithRelations } from "@/repositories/tournament.repository"
+import type { PublicTournamentDetails } from "@/repositories/tournament.repository"
 
 type PublicTournamentGridProps = {
-  tournaments: TournamentWithRelations[]
+  tournaments: PublicTournamentDetails[]
   emptyTitle?: string
   emptyDescription?: string
 }

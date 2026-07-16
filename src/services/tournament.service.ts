@@ -9,6 +9,7 @@ import {
   deleteTournament,
   findActiveSeason,
   findPublicTournamentDetailsBySlug,
+  findPublicTournaments,
   findTournamentById,
   findTournamentBySlug,
   findTournaments,
@@ -60,6 +61,10 @@ export class TournamentServiceError extends Error {
 
 export async function getTournaments() {
   return findTournaments()
+}
+
+export async function getPublicTournaments() {
+  return findPublicTournaments()
 }
 
 export async function getTournamentById(id: string) {

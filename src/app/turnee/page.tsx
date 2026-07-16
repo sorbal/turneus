@@ -5,8 +5,8 @@ import {
 } from "@/components/public/public-tournament-filters"
 import { PublicTournamentGrid } from "@/components/public/public-tournament-grid"
 import { getTournamentStatusLabel } from "@/lib/tournament-status"
-import type { TournamentWithRelations } from "@/repositories/tournament.repository"
-import { getTournaments } from "@/services/tournament.service"
+import type { PublicTournamentDetails } from "@/repositories/tournament.repository"
+import { getPublicTournaments } from "@/services/tournament.service"
 
 type PublicTournamentsPageProps = {
   searchParams: Promise<{
@@ -18,7 +18,7 @@ type PublicTournamentsPageProps = {
   }>
 }
 
-const publicStatuses: TournamentWithRelations["status"][] = [
+const publicStatuses: PublicTournamentDetails["status"][] = [
   "OPEN",
   "FULL",
   "IN_PROGRESS",
@@ -29,7 +29,7 @@ export default async function PublicTournamentsPage({
   searchParams,
 }: PublicTournamentsPageProps) {
   const params = await searchParams
-  const tournaments = await getTournaments()
+  const tournaments = await getPublicTournaments()
   const publicTournaments = tournaments.filter((tournament) =>
     publicStatuses.includes(tournament.status)
   )
@@ -101,7 +101,7 @@ function normalizeFilters(
   params: Awaited<PublicTournamentsPageProps["searchParams"]>
 ): PublicTournamentFiltersValue {
   const status = publicStatuses.includes(
-    params.status as TournamentWithRelations["status"]
+    params.status as PublicTournamentDetails["status"]
   )
     ? params.status ?? ""
     : ""
@@ -117,7 +117,7 @@ function normalizeFilters(
 }
 
 function matchesFilters(
-  tournament: TournamentWithRelations,
+  tournament: PublicTournamentDetails,
   filters: PublicTournamentFiltersValue
 ) {
   if (filters.game && tournament.gameId !== filters.game) {
@@ -150,7 +150,7 @@ function matchesFilters(
 }
 
 function sortTournaments(
-  tournaments: TournamentWithRelations[],
+  tournaments: PublicTournamentDetails[],
   sort: PublicTournamentFiltersValue["sort"]
 ) {
   return [...tournaments].sort((firstTournament, secondTournament) => {

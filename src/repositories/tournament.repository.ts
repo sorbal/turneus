@@ -85,6 +85,24 @@ export async function findTournaments(): Promise<TournamentWithRelations[]> {
   })
 }
 
+export async function findPublicTournaments(): Promise<
+  PublicTournamentDetails[]
+> {
+  const tournaments = await prisma.tournament.findMany({
+    include: tournamentInclude,
+    orderBy: [
+      {
+        startsAt: "desc",
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
+  })
+
+  return withActiveRegistrationsCount(tournaments)
+}
+
 export async function findTournamentById(
   id: string
 ): Promise<TournamentWithRelations | null> {
@@ -121,19 +139,33 @@ export async function findPublicTournamentDetailsBySlug(
     return null
   }
 
-  const activeRegistrationsCount = await prisma.registration.count({
-    where: {
-      tournamentId: tournament.id,
-      status: {
-        not: "CANCELLED",
-      },
-    },
-  })
+  const [publicTournament] = await withActiveRegistrationsCount([tournament])
 
-  return {
-    ...tournament,
-    activeRegistrationsCount,
-  }
+  return publicTournament
+}
+
+async function withActiveRegistrationsCount(
+  tournaments: TournamentWithRelations[]
+): Promise<PublicTournamentDetails[]> {
+  const tournamentsWithActiveRegistrations = await Promise.all(
+    tournaments.map(async (tournament) => {
+      const activeRegistrationsCount = await prisma.registration.count({
+        where: {
+          tournamentId: tournament.id,
+          status: {
+            not: "CANCELLED",
+          },
+        },
+      })
+
+      return {
+        ...tournament,
+        activeRegistrationsCount,
+      }
+    })
+  )
+
+  return tournamentsWithActiveRegistrations
 }
 
 export async function findActiveSeason(): Promise<Season | null> {
