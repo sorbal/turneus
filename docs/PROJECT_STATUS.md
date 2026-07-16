@@ -1,6 +1,6 @@
 # TURNEUS - PROJECT STATUS
 
-Ultima actualizare: 2026-07-15
+Ultima actualizare: 2026-07-16
 
 ---
 
@@ -182,10 +182,19 @@ Implementat
 - Useri eligibili doar cu rol PLAYER
 - Role update PLAYER <-> ORGANIZER
 - Organizers CRUD complet
+- User Repository
+- User Service
+- Users API
+- Admin Users List
+- Formular editare utilizator
+- Actiuni activare / dezactivare utilizator
+- Actiuni promovare / retrogradare ADMIN
+- Resetare parola utilizator
+- Cautare utilizatori
+- User Management complet
 
 Urmeaza
 
-- User Management
 - Venues CRUD
 
 ---
@@ -243,6 +252,7 @@ Finalizat
 - v0.4.0 inceput
 - Cities CRUD finalizat
 - Organizers CRUD finalizat
+- User Management finalizat
 
 ---
 
@@ -252,7 +262,6 @@ Sprint 4
 
 Obiective
 
-- User Management
 - Venues CRUD
 
 ---

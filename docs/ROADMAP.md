@@ -1,6 +1,6 @@
 # TURNEUS - ROADMAP
 
-Ultima actualizare: 2026-07-15
+Ultima actualizare: 2026-07-16
 
 ---
 
@@ -45,8 +45,8 @@ Obiective:
 
 - Cities CRUD - FINALIZAT
 - Organizers CRUD - FINALIZAT
-- User Management - URMEAZA
-- Venues CRUD
+- User Management - FINALIZAT
+- Venues CRUD - URMEAZA
 
 ---
 

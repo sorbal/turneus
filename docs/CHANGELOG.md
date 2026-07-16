@@ -1,6 +1,6 @@
 # TURNEUS - CHANGELOG
 
-Ultima actualizare: 2026-07-15
+Ultima actualizare: 2026-07-16
 
 ---
 
@@ -141,10 +141,20 @@ Implementat
 - Eligible PLAYER users only
 - Role update PLAYER <-> ORGANIZER
 - Organizers CRUD complet
+- User Repository
+- User Service
+- Users API
+- Admin Users List
+- Edit User
+- User Actions
+- Search
+- Activate / Deactivate
+- Promote / Demote ADMIN
+- Password Reset
+- User Management complet
 
 Urmeaza
 
-- User Management
 - Venues CRUD
 
 ---
