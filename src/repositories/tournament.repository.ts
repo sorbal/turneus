@@ -22,6 +22,10 @@ export type TournamentWithRelations = Tournament & {
   _count: TournamentRelationCounts
 }
 
+export type PublicTournamentDetails = TournamentWithRelations & {
+  activeRegistrationsCount: number
+}
+
 export type TournamentCreateData = {
   name: string
   slug: string
@@ -101,6 +105,35 @@ export async function findTournamentBySlug(
     },
     include: tournamentInclude,
   })
+}
+
+export async function findPublicTournamentDetailsBySlug(
+  slug: string
+): Promise<PublicTournamentDetails | null> {
+  const tournament = await prisma.tournament.findUnique({
+    where: {
+      slug,
+    },
+    include: tournamentInclude,
+  })
+
+  if (!tournament) {
+    return null
+  }
+
+  const activeRegistrationsCount = await prisma.registration.count({
+    where: {
+      tournamentId: tournament.id,
+      status: {
+        not: "CANCELLED",
+      },
+    },
+  })
+
+  return {
+    ...tournament,
+    activeRegistrationsCount,
+  }
 }
 
 export async function findActiveSeason(): Promise<Season | null> {

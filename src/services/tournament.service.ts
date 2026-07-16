@@ -1,3 +1,4 @@
+import type { TournamentStatus } from "@/generated/prisma/client"
 import { normalizeSlug } from "@/lib/slug"
 import { findCityById } from "@/repositories/city.repository"
 import { findGameById } from "@/repositories/game.repository"
@@ -7,6 +8,7 @@ import {
   createTournament,
   deleteTournament,
   findActiveSeason,
+  findPublicTournamentDetailsBySlug,
   findTournamentById,
   findTournamentBySlug,
   findTournaments,
@@ -42,6 +44,13 @@ export type UpdateTournamentInput = {
 
 export type TournamentLifecycleAction = "open" | "start" | "complete"
 
+const publicTournamentStatuses = [
+  "OPEN",
+  "FULL",
+  "IN_PROGRESS",
+  "COMPLETED",
+] as const
+
 export class TournamentServiceError extends Error {
   constructor(message: string) {
     super(message)
@@ -56,6 +65,26 @@ export async function getTournaments() {
 export async function getTournamentById(id: string) {
   assertId(id)
   return findTournamentById(id)
+}
+
+export async function getPublicTournamentBySlug(slug: string) {
+  const normalizedSlug = normalizeSlug(slug)
+
+  if (!normalizedSlug) {
+    return null
+  }
+
+  const tournament = await findPublicTournamentDetailsBySlug(normalizedSlug)
+
+  if (!tournament) {
+    return null
+  }
+
+  if (!isPublicTournamentStatus(tournament.status)) {
+    return null
+  }
+
+  return tournament
 }
 
 export async function createTournamentRecord(input: CreateTournamentInput) {
@@ -260,6 +289,12 @@ function getNextTournamentStatus(
 
   throw new TournamentServiceError(
     "Tranzitia de status nu este permisa pentru acest turneu."
+  )
+}
+
+function isPublicTournamentStatus(status: TournamentStatus) {
+  return publicTournamentStatuses.some(
+    (publicStatus) => publicStatus === status
   )
 }
 
