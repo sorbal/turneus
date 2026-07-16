@@ -1,8 +1,5 @@
-import {
-  constants,
-  createDecipheriv,
-  privateDecrypt,
-} from "node:crypto"
+import { execFileSync } from "node:child_process"
+import { createDecipheriv } from "node:crypto"
 
 import { loadNetopiaCertificates } from "@/lib/netopia/certificates"
 import { getNetopiaConfig } from "@/lib/netopia/config"
@@ -43,8 +40,8 @@ export function decryptNetopiaIpn(
   input: EncryptedNetopiaIpnInput
 ): NetopiaIpnPayload {
   const config = getNetopiaConfig()
-  const certificates = loadNetopiaCertificates(config)
-  const decryptedXml = decryptNetopiaXml(input, certificates.privateKey)
+  loadNetopiaCertificates(config)
+  const decryptedXml = decryptNetopiaXml(input, config.privateKeyPath)
 
   return parseNetopiaIpnXml(decryptedXml)
 }
@@ -61,7 +58,7 @@ export class NetopiaIpnError extends Error {
 
 function decryptNetopiaXml(
   input: EncryptedNetopiaIpnInput,
-  privateKey: string
+  privateKeyPath: string
 ) {
   if (input.cipher !== "aes-256-cbc") {
     throw new Error("Cipher NETOPIA invalid.")
@@ -71,7 +68,7 @@ function decryptNetopiaXml(
     throw new Error("IV NETOPIA lipseste.")
   }
 
-  const aesKey = decryptAesKey(input.envKey, privateKey)
+  const aesKey = decryptAesKey(input.envKey, privateKeyPath)
   const iv = Buffer.from(input.iv, "base64")
 
   if (aesKey.length !== 32 || iv.length !== 16) {
@@ -86,15 +83,31 @@ function decryptNetopiaXml(
   return decryptedData.toString("utf8")
 }
 
-function decryptAesKey(envKey: string, privateKey: string) {
+function decryptAesKey(envKey: string, privateKeyPath: string) {
   try {
-    return privateDecrypt(
+    const aesKey = execFileSync(
+      "openssl",
+      [
+        "pkeyutl",
+        "-decrypt",
+        "-inkey",
+        privateKeyPath,
+        "-pkeyopt",
+        "rsa_padding_mode:pkcs1",
+      ],
       {
-        key: privateKey,
-        padding: constants.RSA_PKCS1_PADDING,
-      },
-      Buffer.from(envKey, "base64")
+        input: Buffer.from(envKey, "base64"),
+        maxBuffer: 1024,
+        timeout: 3000,
+        windowsHide: true,
+      }
     )
+
+    if (aesKey.length !== 32) {
+      throw new Error("AES key invalid length.")
+    }
+
+    return aesKey
   } catch {
     throw new NetopiaIpnError(
       "Decriptare env_key NETOPIA esuata.",
