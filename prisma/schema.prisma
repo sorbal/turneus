@@ -37,6 +37,19 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum RefundRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSED
+}
+
+enum RefundRequestSource {
+  USER
+  TOURNAMENT_CANCELLATION
+  ADMIN
+}
+
 enum StageStatus {
   PENDING
   ACTIVE
@@ -91,6 +104,8 @@ model User {
   organizerProfile OrganizerProfile?
   registrations    Registration[]
   payments         Payment[]
+  refundRequests   RefundRequest[]     @relation("RefundRequestUser")
+  processedRefunds RefundRequest[]     @relation("RefundRequestProcessor")
   comments         Comment[]
   notifications    Notification[]
   playerStats      PlayerSeasonStats[]
@@ -250,6 +265,8 @@ model Registration {
 
   payment Payment?
 
+  refundRequest RefundRequest?
+
   finalPosition  Int?
   officialPoints Int  @default(0)
 
@@ -276,8 +293,46 @@ model Payment {
   provider    String        @default("NETOPIA")
   providerRef String?
 
+  refundRequest RefundRequest?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model RefundRequest {
+  id String @id @default(cuid())
+
+  registrationId String       @unique
+  registration   Registration @relation(fields: [registrationId], references: [id])
+
+  paymentId String  @unique
+  payment   Payment @relation(fields: [paymentId], references: [id])
+
+  userId String
+  user   User   @relation("RefundRequestUser", fields: [userId], references: [id])
+
+  source RefundRequestSource @default(USER)
+  reason String
+
+  requestedAmount Decimal  @db.Decimal(10, 2)
+  refundedAmount  Decimal? @db.Decimal(10, 2)
+
+  status RefundRequestStatus @default(PENDING)
+
+  processedAt DateTime?
+
+  processedByUserId String?
+  processedByUser   User?   @relation("RefundRequestProcessor", fields: [processedByUserId], references: [id])
+
+  adminNote String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([processedByUserId])
 }
 
 model TournamentStage {

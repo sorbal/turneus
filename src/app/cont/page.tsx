@@ -159,18 +159,43 @@ function RegistrationCard({
           </CardDescription>
         </div>
 
-        <Button
-          asChild
-          className="border-white/10 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-          variant="outline"
-        >
-          <Link href={`/turnee/${registration.tournament.slug}`}>
-            Vezi turneul
-          </Link>
-        </Button>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          {canShowTicket(registration.status) ? (
+            <Button
+              asChild
+              className="bg-white text-zinc-950 hover:bg-zinc-200"
+            >
+              <Link href={`/cont/bilete/${registration.id}`}>
+                Vezi biletul
+              </Link>
+            </Button>
+          ) : null}
+
+          {registration.canRequestRefund ? (
+            <Button
+              asChild
+              className="border-white/10 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+              variant="outline"
+            >
+              <Link href={`/cont/rambursare/${registration.id}`}>
+                Solicita rambursarea
+              </Link>
+            </Button>
+          ) : null}
+
+          <Button
+            asChild
+            className="border-white/10 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+            variant="outline"
+          >
+            <Link href={`/turnee/${registration.tournament.slug}`}>
+              Vezi turneul
+            </Link>
+          </Button>
+        </div>
       </CardHeader>
 
-      <CardContent className="grid gap-3 pt-0 md:grid-cols-3">
+      <CardContent className="grid gap-3 pt-0 md:grid-cols-4">
         <StatusTile
           label="Status inscriere"
           tone={getRegistrationTone(registration.status)}
@@ -190,6 +215,14 @@ function RegistrationCard({
               : "Nu exista plata"
           }
         />
+        {registration.refundRequest ? (
+          <StatusTile
+            label="Rambursare"
+            tone={getRefundRequestTone(registration.refundRequest.status)}
+            value={registration.refundRequest.statusLabel}
+            helperText={registration.refundRequest.publicMessage}
+          />
+        ) : null}
       </CardContent>
     </Card>
   )
@@ -199,10 +232,12 @@ function StatusTile({
   label,
   tone,
   value,
+  helperText,
 }: {
   label: string
   tone: "emerald" | "amber" | "red" | "violet" | "muted"
   value: string
+  helperText?: string
 }) {
   return (
     <div className="rounded-lg border border-white/10 bg-zinc-950/50 px-4 py-3">
@@ -212,6 +247,9 @@ function StatusTile({
       <p className={`mt-2 text-sm font-medium ${getToneClassName(tone)}`}>
         {value}
       </p>
+      {helperText ? (
+        <p className="mt-1 text-xs leading-5 text-zinc-500">{helperText}</p>
+      ) : null}
     </div>
   )
 }
@@ -228,6 +266,10 @@ function getRegistrationTone(status: string) {
   return "red"
 }
 
+function canShowTicket(status: string) {
+  return status === "CONFIRMED" || status === "CHECKED_IN"
+}
+
 function getPaymentTone(status: string) {
   if (status === "PAID") {
     return "emerald"
@@ -239,6 +281,18 @@ function getPaymentTone(status: string) {
 
   if (status === "REFUNDED") {
     return "violet"
+  }
+
+  return "red"
+}
+
+function getRefundRequestTone(status: string) {
+  if (status === "PENDING") {
+    return "amber"
+  }
+
+  if (status === "APPROVED" || status === "PROCESSED") {
+    return "emerald"
   }
 
   return "red"

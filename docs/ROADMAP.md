@@ -71,15 +71,24 @@ Obiective:
 - Player Account Dashboard /cont - FINALIZAT
 - Public Account Access /inregistrare + logout - FINALIZAT
 - Asset oficial NETOPIA Payments + Mastercard + Visa - FINALIZAT
+- Digital Tournament Ticket foundation - FINALIZAT
+- Digital Ticket print A4 1/1 - FINALIZAT
+- RefundRequest Data Foundation - FINALIZAT
+- User Refund Request foundation - FINALIZAT
+- User Refund Request public flow - FINALIZAT
 
 Urmatorul Epic:
 
 - Teste finale NETOPIA - URMEAZA
 - Trecere controlata pe NETOPIA LIVE - URMEAZA
 - Audit persistent acceptare termeni - PLANIFICAT
-- Cerere online structurata anulare / rambursare - PLANIFICAT
+- Admin RefundRequest Management - PLANIFICAT
+- Aprobare / respingere manuala rambursari - PLANIFICAT
+- Refund Processing - PLANIFICAT
 - Refund automat NETOPIA - PLANIFICAT
-- Facturi si bilete digitale - PLANIFICAT
+- QR code si validare scan bilet - PLANIFICAT
+- PDF server-side pentru bilet - PLANIFICAT
+- Facturi - PLANIFICAT
 
 Note:
 
@@ -88,6 +97,8 @@ Note:
 - Productia NETOPIA nu este activata in aplicatie.
 - NETOPIA LIVE ramane neactivat.
 - Trecerea pe LIVE se face controlat dupa verificarile finale.
+- Refund-ul extern NETOPIA nu este implementat.
+- Epic-ul financiar ramane deschis.
 
 ---
 
@@ -139,6 +150,15 @@ Obiective:
 - Financial Reports
 - Settlement / Payout Tracking
 - Audit financiar
+- Admin RefundRequest Management
+- Aprobare / respingere manuala cereri rambursare
+- Procesare cereri catre PROCESSED
+- Refund extern automat prin NETOPIA
+- Sincronizare RefundRequest cu IPN credit / refund
+- Anulare automata Registration dupa refund confirmat
+- Rambursari automate de masa pentru turneu anulat
+- Notificari email financiare
+- Facturi
 
 Cerinte UI planificate:
 

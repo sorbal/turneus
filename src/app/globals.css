@@ -128,3 +128,42 @@
     @apply font-sans;
   }
 }
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: #09090b !important;
+    font-size: 10pt;
+    line-height: 1.25;
+    overflow: visible !important;
+  }
+
+  .ticket-print-page {
+    background: white !important;
+    border: 0 !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
+  .ticket-print-card {
+    background: white !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    max-width: none !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
+  .ticket-print-detail {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

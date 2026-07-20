@@ -92,13 +92,15 @@ FINALIZATA
 Implementat
 
 - Schema Prisma
-- 22 modele
+- 23 modele
 - Migration
 - Seed
 - Jocuri
 - Orase
 - Badge-uri
 - Sezon 2026
+- RefundRequest
+- Migrarea 20260721143000_add_refund_requests aplicata cu succes prin prisma migrate deploy
 
 ---
 
@@ -121,8 +123,13 @@ Reguli oficiale
 Deja existent
 
 - Modelul Payment
+- Modelul RefundRequest
 - Plati NETOPIA Sandbox
 - Campurile prizePoolAmount, organizerCommission si platformCommission in Tournament
+- Cereri publice de rambursare salvate ca RefundRequest
+- Cerere eligibila -> PENDING
+- Cerere sub 24h -> REJECTED
+- requestedAmount preluat server-side din Payment.amount
 
 Neimplementat
 
@@ -134,6 +141,13 @@ Neimplementat
 - Rapoarte financiare
 - Plati / decontari catre organizatori
 - Istoric financiar si audit
+- Lista si administrarea RefundRequest in admin
+- Aprobare / respingere manuala de administrator
+- Refund extern automat prin NETOPIA
+- Procesarea cererii si trecerea la PROCESSED
+- Sincronizarea RefundRequest cu IPN credit / refund
+- Anularea automata Registration dupa refund confirmat
+- Rambursari automate de masa pentru turneu anulat
 
 De stabilit inainte de implementare
 
@@ -292,20 +306,38 @@ Implementat
 - Checkout Legal Acceptance
 - POST /api/payments valideaza termsAccepted === true
 - Player Account Dashboard /cont
+- Digital Tournament Ticket /cont/bilete/[registrationId]
+- Bilet disponibil doar pentru CONFIRMED si CHECKED_IN
+- Ownership bilet prin registrationId + userId din sesiune
+- Print A4 compact prin window.print()
+- Link Vezi biletul in /cont
 - Public Account Access
 - Pagina publica /inregistrare
 - Creare publica conturi PLAYER
 - Logout public functional
+- RefundRequest Data Foundation
+- Enum RefundRequestStatus
+- Enum RefundRequestSource
+- Relatii RefundRequest cu Registration, Payment si User
+- User Refund Request Flow
+- POST /api/refund-requests
+- Ruta privata /cont/rambursare/[registrationId]
+- Formular motiv rambursare 10-500 caractere
+- Confirmare Politica de anulare si rambursare
+- Eligibility canRequestRefund in /cont
 
 Urmeaza
 
 - Teste finale NETOPIA
 - Trecere controlata pe NETOPIA LIVE
 - Audit persistent pentru acceptarea versiunii termenilor
-- Cerere online structurata de anulare / rambursare
+- Lista si administrarea RefundRequest in admin
+- Aprobare / respingere manuala cereri rambursare
+- Procesare RefundRequest catre PROCESSED
 - Refund automat prin NETOPIA
 - Generare si descarcare facturi
-- Bilete digitale
+- QR code si validare scan pentru bilet
+- PDF generat server-side pentru bilet
 
 ---
 
@@ -343,8 +375,11 @@ Implementat
 - Public Payment Trust Asset
 - Checkout Legal Acceptance
 - Player Account Dashboard /cont
+- Digital Tournament Ticket /cont/bilete/[registrationId]
 - Public Registration /inregistrare
 - Public Logout
+- User Refund Request Flow
+- Ruta /cont/rambursare/[registrationId]
 
 Design ales
 
@@ -473,6 +508,43 @@ Finalizat
 - Contul player2 afiseaza Registration CONFIRMED si Payment PAID
 - Contul player3 afiseaza empty state
 - Creare cont, login si logout testate manual
+- Digital Tournament Ticket implementat
+- Ruta privata /cont/bilete/[registrationId]
+- Ownership bilet impus prin registrationId + userId din sesiune
+- Bilet disponibil doar pentru CONFIRMED si CHECKED_IN
+- Date participant, turneu, locatie, data, plata si referinta
+- Fara expunere providerRef sau date interne pe bilet
+- Buton Printeaza / Salveaza PDF prin window.print()
+- Layout print A4 compact
+- Bilet verificat manual ca incape pe o singura pagina 1/1
+- Link Vezi biletul in /cont
+- Refund Request Data Foundation implementat
+- Enum RefundRequestStatus: PENDING, APPROVED, REJECTED, PROCESSED
+- Enum RefundRequestSource: USER, TOURNAMENT_CANCELLATION, ADMIN
+- Model RefundRequest
+- Relatii 1-la-1 cu Registration si Payment
+- Relatii cu participantul si administratorul procesator
+- Unique pe registrationId si paymentId
+- Migrarea 20260721143000_add_refund_requests aplicata cu succes pe PostgreSQL prin prisma migrate deploy
+- User Refund Request Flow implementat
+- POST /api/refund-requests
+- Ruta privata /cont/rambursare/[registrationId]
+- Formular cu motiv 10-500 caractere
+- Confirmare Politica de anulare si rambursare
+- Ownership server-side
+- requestedAmount luata din Payment.amount
+- Doar Registration CONFIRMED + Payment PAID
+- Minimum 24h complete inainte de turneu
+- Exact 24h ramane eligibil
+- Sub 24h requestul API este salvat REJECTED
+- Cerere eligibila este PENDING
+- Duplicatele sunt idempotente
+- Tranzactie Serializable cu protectie P2002 / P2034
+- Payment si Registration nu sunt modificate cat timp cererea este PENDING
+- /cont afiseaza statusul cererii
+- Butonul Solicita rambursarea apare doar daca canRequestRefund este true
+- Cupa Braila, deja inceputa, verificata manual fara buton de rambursare
+- Ruta directa nu afiseaza formularul dupa expirarea termenului
 
 ---
 
@@ -486,9 +558,19 @@ Obiective
 - Trecere controlata pe NETOPIA LIVE
 - Audit persistent pentru acceptarea versiunii termenilor
 - Cerere online structurata de anulare / rambursare
+- Lista si administrarea RefundRequest in admin
+- Aprobare / respingere manuala cereri rambursare
+- Procesare RefundRequest si trecere la PROCESSED
 - Refund automat prin NETOPIA
 - Generare si descarcare facturi
-- Bilete digitale
+- Sincronizare RefundRequest cu IPN credit / refund
+- Anulare automata Registration dupa refund confirmat
+- Rambursari automate de masa pentru turneu anulat
+- Notificari email
+- Audit persistent pentru versiunea termenilor
+- QR code si validare scan pentru bilet
+- PDF generat server-side pentru bilet
+- Facturi
 - Istoric financiar complet
 - Financial Calculation Engine
 

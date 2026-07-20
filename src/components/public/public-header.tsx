@@ -20,7 +20,7 @@ export async function PublicHeader() {
   const currentUser = await getCurrentUser()
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/85 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/85 backdrop-blur print:hidden">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-5 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
           <Link

@@ -287,6 +287,50 @@ Account
 - PublicHeader adaptat starii autentificate
 - Logout public functional
 
+Digital Ticket
+
+- Digital Tournament Ticket
+- Ruta privata /cont/bilete/[registrationId]
+- Ownership impus prin registrationId + userId din sesiune
+- Disponibil doar pentru CONFIRMED si CHECKED_IN
+- Date participant, turneu, locatie, data, plata si referinta
+- Fara providerRef sau date interne
+- Buton Printeaza / Salveaza PDF prin window.print()
+- Layout print A4 compact
+- Print verificat manual 1/1
+- Link Vezi biletul in /cont
+
+Refund Request
+
+- RefundRequest Data Foundation
+- Enum RefundRequestStatus: PENDING, APPROVED, REJECTED, PROCESSED
+- Enum RefundRequestSource: USER, TOURNAMENT_CANCELLATION, ADMIN
+- Model RefundRequest
+- Relatii 1-la-1 cu Registration si Payment
+- Relatii cu participantul si administratorul procesator
+- Unique pe registrationId si paymentId
+- Migrarea 20260721143000_add_refund_requests
+- Migrarea aplicata cu succes pe PostgreSQL prin prisma migrate deploy
+- POST /api/refund-requests
+- Ruta privata /cont/rambursare/[registrationId]
+- Formular motiv 10-500 caractere
+- Confirmare Politica de anulare si rambursare
+- Ownership server-side
+- requestedAmount preluat din Payment.amount
+- Doar Registration CONFIRMED + Payment PAID
+- Minimum 24h complete inainte de turneu
+- Exact 24h este eligibil
+- Sub 24h requestul API este salvat REJECTED
+- Cerere eligibila este PENDING
+- Duplicate idempotente
+- Tranzactie Serializable cu protectie P2002 / P2034
+- Payment si Registration raman nemodificate cat timp cererea este PENDING
+- /cont afiseaza statusul cererii
+- Buton Solicita rambursarea afisat doar pentru canRequestRefund true
+- Corectie eligibilitate temporala pentru butonul de rambursare
+- Cupa Braila, deja inceputa, verificata manual fara buton de rambursare
+- Ruta directa nu afiseaza formularul dupa expirarea termenului
+
 Testare
 
 - npm run build trecut
@@ -295,16 +339,26 @@ Testare
 - Contul player3 afiseaza corect empty state
 - Creare cont, login si logout testate manual
 - Cont nou player3 testat manual
+- Bilet digital verificat manual cu print A4 1/1
+- User Refund Request Flow testat manual
+- Corectia eligibilitatii temporale testata manual pentru Cupa Braila
 
 Urmeaza
 
 - Teste finale NETOPIA
 - Trecere controlata pe NETOPIA LIVE
 - Audit persistent pentru acceptarea versiunii termenilor
-- Cerere online structurata de anulare / rambursare
+- Lista si administrarea RefundRequest in admin
+- Aprobare / respingere manuala cereri rambursare
+- Procesare RefundRequest si trecere la PROCESSED
 - Refund automat prin NETOPIA
 - Generare si descarcare facturi
-- Bilete digitale
+- QR code si validare scan pentru bilet
+- PDF generat server-side pentru bilet
+- Sincronizare RefundRequest cu IPN credit / refund
+- Anulare automata Registration dupa refund confirmat
+- Rambursari automate de masa pentru turneu anulat
+- Notificari email
 - Istoric financiar complet
 - Financial Calculation Engine
 
@@ -314,6 +368,7 @@ Note
 - Productia NETOPIA nu este activata in aplicatie.
 - NETOPIA LIVE ramane neactivat.
 - Trecerea pe LIVE se face controlat dupa verificarile finale.
+- Refund-ul extern NETOPIA nu este implementat.
 
 ---
 
