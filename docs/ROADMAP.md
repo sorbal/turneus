@@ -1,6 +1,6 @@
 # TURNEUS - ROADMAP
 
-Ultima actualizare: 2026-07-17
+Ultima actualizare: 2026-07-21
 
 ---
 
@@ -66,19 +66,28 @@ Obiective:
 - Netopia Sandbox Integration - FINALIZAT
 - Homepage metric Membri Turneus activi - FINALIZAT
 - Login public dark premium - FINALIZAT
+- Public Legal & Compliance Pages - FINALIZAT
+- Checkout Legal Acceptance - FINALIZAT
+- Player Account Dashboard /cont - FINALIZAT
+- Public Account Access /inregistrare + logout - FINALIZAT
+- Asset oficial NETOPIA Payments + Mastercard + Visa - FINALIZAT
 
 Urmatorul Epic:
 
-- Pagini juridice / compliance NETOPIA - URMEAZA
-- Acceptarea termenilor la checkout - URMEAZA
 - Teste finale NETOPIA - URMEAZA
 - Trecere controlata pe NETOPIA LIVE - URMEAZA
+- Audit persistent acceptare termeni - PLANIFICAT
+- Cerere online structurata anulare / rambursare - PLANIFICAT
+- Refund automat NETOPIA - PLANIFICAT
+- Facturi si bilete digitale - PLANIFICAT
 
 Note:
 
 - v0.5.0 ramane IN DEZVOLTARE.
 - Netopia Sandbox este functional.
 - Productia NETOPIA nu este activata in aplicatie.
+- NETOPIA LIVE ramane neactivat.
+- Trecerea pe LIVE se face controlat dupa verificarile finale.
 
 ---
 
@@ -119,9 +128,33 @@ Status: PLANIFICAT
 Obiective:
 
 - Payments
-- Financial Reports
+- Financial Calculation Engine
+- Istoric financiar complet
+- Fond total bazat pe participantii eligibili financiar
+- Distributie automata 70% premii / 20% organizator / 10% Turneus
+- Calcul automat premii 50% / 30% / 20%
+- Recalculare dupa PAID / REFUNDED / CANCELLED
 - Organizer Earnings
 - Platform Earnings
+- Financial Reports
+- Settlement / Payout Tracking
+- Audit financiar
+
+Cerinte UI planificate:
+
+- Public, pe pagina turneului: afisarea fondului de premiere si a premiilor estimate pentru locurile 1, 2 si 3
+- Organizator autentificat: afisarea privata a sumei care ii revine
+- Publicul nu vede comisionul organizatorului sau comisionul platformei
+- Adminul vede toate componentele financiare
+
+De stabilit inainte de implementare:
+
+- Regula exacta pentru participant eligibil financiar
+- Tratamentul PAID
+- Tratamentul CONFIRMED la turnee gratuite
+- Tratamentul PENDING_PAYMENT
+- Tratamentul CANCELLED
+- Tratamentul REFUNDED
 
 ---
 

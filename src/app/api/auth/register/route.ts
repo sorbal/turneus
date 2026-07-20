@@ -4,13 +4,54 @@ import { hashPassword } from "@/lib/auth/password";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body: unknown = await readJsonBody(request);
+
+    if (!isRecord(body)) {
+      return NextResponse.json(
+        { error: "Body JSON invalid." },
+        { status: 400 }
+      );
+    }
+
+    const invalidField = getInvalidField(body);
+
+    if (invalidField) {
+      return NextResponse.json(
+        { error: `Camp invalid: ${invalidField}.` },
+        { status: 400 }
+      );
+    }
 
     const { email, username, password, firstName, lastName, phone } = body;
 
-    if (!email || !username || !password || !firstName || !lastName) {
+    if (body.termsAccepted !== true) {
+      return NextResponse.json(
+        { error: "Acceptarea termenilor este obligatorie." },
+        { status: 400 }
+      );
+    }
+
+    if (
+      typeof email !== "string" ||
+      typeof username !== "string" ||
+      typeof password !== "string" ||
+      typeof firstName !== "string" ||
+      typeof lastName !== "string" ||
+      !email.trim() ||
+      !username.trim() ||
+      !password ||
+      !firstName.trim() ||
+      !lastName.trim()
+    ) {
       return NextResponse.json(
         { error: "Campurile obligatorii lipsesc." },
+        { status: 400 }
+      );
+    }
+
+    if (phone !== undefined && phone !== null && typeof phone !== "string") {
+      return NextResponse.json(
+        { error: "Telefon invalid." },
         { status: 400 }
       );
     }
@@ -24,7 +65,7 @@ export async function POST(request: Request) {
 
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [{ email }, { username }],
+        OR: [{ email: email.trim() }, { username: username.trim() }],
       },
     });
 
@@ -39,12 +80,12 @@ export async function POST(request: Request) {
 
     const user = await prisma.user.create({
       data: {
-        email,
-        username,
+        email: email.trim(),
+        username: username.trim(),
         passwordHash,
-        firstName,
-        lastName,
-        phone: phone || null,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        phone: phone?.trim() || null,
         role: "PLAYER",
       },
       select: {
@@ -73,4 +114,36 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+async function readJsonBody(request: Request): Promise<unknown> {
+  try {
+    return await request.json();
+  } catch {
+    return null;
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function getInvalidField(body: Record<string, unknown>) {
+  const allowedFields = new Set([
+    "email",
+    "username",
+    "password",
+    "firstName",
+    "lastName",
+    "phone",
+    "termsAccepted",
+  ]);
+
+  for (const key of Object.keys(body)) {
+    if (!allowedFields.has(key)) {
+      return key;
+    }
+  }
+
+  return "";
 }

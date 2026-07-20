@@ -46,10 +46,17 @@ function parseRegistrationId(body: unknown) {
     throw new PaymentApiError("Body JSON invalid.", 400)
   }
 
-  assertOnlyAllowedFields(body, new Set(["registrationId"]))
+  assertOnlyAllowedFields(body, new Set(["registrationId", "termsAccepted"]))
 
   if (typeof body.registrationId !== "string") {
     throw new PaymentApiError("Inscriere invalida.", 400)
+  }
+
+  if (body.termsAccepted !== true) {
+    throw new PaymentApiError(
+      "Acceptarea termenilor este obligatorie pentru plata.",
+      400
+    )
   }
 
   return body.registrationId

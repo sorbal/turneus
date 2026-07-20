@@ -2,6 +2,8 @@ import Link from "next/link"
 import { Trophy } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { getCurrentUser } from "@/lib/auth/current-user"
+import { PublicLogoutButton } from "@/components/public/public-logout-button"
 
 const publicNavigation = [
   {
@@ -14,7 +16,9 @@ const publicNavigation = [
   },
 ]
 
-export function PublicHeader() {
+export async function PublicHeader() {
+  const currentUser = await getCurrentUser()
+
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/85 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-5 sm:px-6 lg:px-8">
@@ -29,9 +33,25 @@ export function PublicHeader() {
             Turneus
           </Link>
 
-          <Button asChild size="sm" variant="secondary">
-            <Link href="/login">Login</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            {currentUser ? (
+              <>
+                <Button asChild size="sm" variant="secondary">
+                  <Link href="/cont">Contul meu</Link>
+                </Button>
+                <PublicLogoutButton />
+              </>
+            ) : (
+              <>
+                <Button asChild size="sm" variant="secondary">
+                  <Link href="/login">Login</Link>
+                </Button>
+                <Button asChild size="sm" variant="ghost">
+                  <Link href="/inregistrare">Creeaza cont</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
 
         <nav className="flex flex-wrap items-center gap-1 text-sm text-zinc-300">

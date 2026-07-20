@@ -1,6 +1,6 @@
 # TURNEUS - PROJECT STATUS
 
-Ultima actualizare: 2026-07-17
+Ultima actualizare: 2026-07-21
 
 ---
 
@@ -99,6 +99,50 @@ Implementat
 - Orase
 - Badge-uri
 - Sezon 2026
+
+---
+
+Financial System
+
+STATUS
+
+PLANIFICAT / NEIMPLEMENTAT
+
+Reguli oficiale
+
+- Fond total = taxa de participare x numarul participantilor eligibili financiar
+- Fond premii: 70%
+- Organizator: 20%
+- Platforma Turneus: 10%
+- Locul 1: 50% din fondul de premiere
+- Locul 2: 30% din fondul de premiere
+- Locul 3: 20% din fondul de premiere
+
+Deja existent
+
+- Modelul Payment
+- Plati NETOPIA Sandbox
+- Campurile prizePoolAmount, organizerCommission si platformCommission in Tournament
+
+Neimplementat
+
+- Calcul automat fond total
+- Calcul automat 70% / 20% / 10%
+- Recalculare dupa plati confirmate si refund-uri
+- Calcul premii locurile 1, 2 si 3
+- Evidenta sumelor datorate organizatorilor
+- Rapoarte financiare
+- Plati / decontari catre organizatori
+- Istoric financiar si audit
+
+De stabilit inainte de implementare
+
+- Regula exacta pentru participant eligibil financiar
+- Tratamentul PAID
+- Tratamentul CONFIRMED la turnee gratuite
+- Tratamentul PENDING_PAYMENT
+- Tratamentul CANCELLED
+- Tratamentul REFUNDED
 
 ---
 
@@ -238,13 +282,30 @@ Implementat
 - NETOPIA API v1 request criptat
 - NETOPIA IPN public securizat
 - Pagina rezultat plata /plata/rezultat
+- Public Legal & Compliance Pages
+- Pagini /termeni-si-conditii, /confidentialitate, /anulare-si-rambursare, /furnizarea-serviciului, /solutionarea-litigiilor, /contact
+- Date complete comerciant
+- Rol Turneus comerciant direct
+- Politica rambursare 24h
+- Footer public cu linkuri juridice
+- Asset oficial NETOPIA Payments + Mastercard + Visa
+- Checkout Legal Acceptance
+- POST /api/payments valideaza termsAccepted === true
+- Player Account Dashboard /cont
+- Public Account Access
+- Pagina publica /inregistrare
+- Creare publica conturi PLAYER
+- Logout public functional
 
 Urmeaza
 
-- Pagini juridice / compliance NETOPIA
-- Acceptarea termenilor la checkout
 - Teste finale NETOPIA
 - Trecere controlata pe NETOPIA LIVE
+- Audit persistent pentru acceptarea versiunii termenilor
+- Cerere online structurata de anulare / rambursare
+- Refund automat prin NETOPIA
+- Generare si descarcare facturi
+- Bilete digitale
 
 ---
 
@@ -277,6 +338,13 @@ Implementat
 - Redirect inapoi dupa autentificare
 - Pagina rezultat plata
 - Homepage metric Membri Turneus activi
+- Public Legal Pages
+- Public Footer Legal Links
+- Public Payment Trust Asset
+- Checkout Legal Acceptance
+- Player Account Dashboard /cont
+- Public Registration /inregistrare
+- Public Logout
 
 Design ales
 
@@ -362,6 +430,49 @@ Finalizat
 - Cookie auth compatibil apex/www la revenirea din NETOPIA
 - Homepage: Turnee OPEN inlocuit cu Membri Turneus activi
 - Login public dark premium
+- Public Legal & Compliance Pages implementate
+- Pagina /termeni-si-conditii
+- Pagina /confidentialitate
+- Pagina /anulare-si-rambursare
+- Pagina /furnizarea-serviciului
+- Pagina /solutionarea-litigiilor
+- Pagina /contact
+- Date complete comerciant documentate in UI
+- Rol Turneus ca comerciant direct
+- Politica rambursare: integral cu minimum 24h inainte
+- Politica rambursare: nerambursabil sub 24h
+- Politica rambursare: integral daca turneul este anulat de Turneus sau organizator
+- Footer public cu linkuri juridice
+- Asset oficial NETOPIA Payments + Mastercard + Visa in footer
+- Checkout Legal Acceptance implementat
+- Checkbox obligatoriu pentru Termeni si conditii si Politica de anulare
+- Buton Plateste blocat pana la acceptare
+- POST /api/payments valideaza termsAccepted === true
+- Acceptarea nu are audit persistent in schema actuala
+- Player Account Dashboard implementat
+- Ruta privata /cont
+- Date cont autentificat
+- Inscrieri proprii
+- Status inscriere si status plata
+- Suma plata si link spre turneu
+- Separare repository -> service -> page
+- Fara expunere providerRef sau date interne
+- Public Account Access implementat
+- Pagina /inregistrare
+- Creare publica conturi PLAYER
+- Acceptare obligatorie Termeni si Confidentialitate
+- POST /api/auth/register valideaza termsAccepted === true
+- Login redirect ADMIN -> /admin
+- Login redirect PLAYER / ORGANIZER -> /cont
+- Redirect explicit prioritar
+- PublicHeader adaptat starii autentificate
+- Logout public functional
+- Cont nou player3 testat manual
+- /cont testat pentru ADMIN, PLAYER cu inscriere si PLAYER fara inscrieri
+- Paginile juridice si linkurile footerului testate local
+- Contul player2 afiseaza Registration CONFIRMED si Payment PAID
+- Contul player3 afiseaza empty state
+- Creare cont, login si logout testate manual
 
 ---
 
@@ -371,16 +482,23 @@ Sprint 5
 
 Obiective
 
-- Pagini juridice / compliance NETOPIA
-- Acceptarea termenilor la checkout
 - Teste finale NETOPIA
 - Trecere controlata pe NETOPIA LIVE
+- Audit persistent pentru acceptarea versiunii termenilor
+- Cerere online structurata de anulare / rambursare
+- Refund automat prin NETOPIA
+- Generare si descarcare facturi
+- Bilete digitale
+- Istoric financiar complet
+- Financial Calculation Engine
 
 Note
 
 - v0.5.0 ramane IN DEZVOLTARE.
 - Netopia Sandbox este functional.
 - Productia NETOPIA nu este activata in aplicatie.
+- NETOPIA LIVE ramane neactivat.
+- Trecerea pe LIVE se face controlat dupa verificarile finale.
 
 ---
 
@@ -392,7 +510,7 @@ working tree cu modificari necomise
 
 Ultima verificare
 
-2026-07-17
+2026-07-21
 
 ---
 

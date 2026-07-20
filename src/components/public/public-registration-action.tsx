@@ -53,6 +53,7 @@ export function PublicRegistrationAction({
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isPaymentSubmitting, setIsPaymentSubmitting] = useState(false)
+  const [termsAccepted, setTermsAccepted] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
 
@@ -104,6 +105,11 @@ export function PublicRegistrationAction({
       return
     }
 
+    if (!termsAccepted) {
+      setError("Trebuie sa accepti termenii si politica de anulare.")
+      return
+    }
+
     setIsPaymentSubmitting(true)
     setMessage("")
     setError("")
@@ -116,6 +122,7 @@ export function PublicRegistrationAction({
         },
         body: JSON.stringify({
           registrationId,
+          termsAccepted: true,
         }),
       })
 
@@ -174,9 +181,42 @@ export function PublicRegistrationAction({
           description={existingStatusMessage.description}
           title={existingStatusMessage.title}
         >
+          <div className="rounded-lg border border-white/10 bg-zinc-950/50 p-3">
+            <label className="flex items-start gap-3 text-left text-sm leading-6 text-zinc-300">
+              <input
+                checked={termsAccepted}
+                className="mt-1 size-4 rounded border-white/20 bg-zinc-950 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                disabled={isPaymentSubmitting}
+                onChange={(event) => setTermsAccepted(event.target.checked)}
+                type="checkbox"
+              />
+              <span>
+                Am citit si accept{" "}
+                <Link
+                  className="font-medium text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
+                  href="/termeni-si-conditii"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Termenii si conditiile
+                </Link>{" "}
+                si{" "}
+                <Link
+                  className="font-medium text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
+                  href="/anulare-si-rambursare"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Politica de anulare si rambursare
+                </Link>
+                .
+              </span>
+            </label>
+          </div>
+
           <Button
             className="w-full bg-white text-zinc-950 hover:bg-zinc-200 disabled:bg-white/30 disabled:text-zinc-400"
-            disabled={isPaymentSubmitting}
+            disabled={!termsAccepted || isPaymentSubmitting}
             onClick={handlePayment}
             size="lg"
             type="button"
